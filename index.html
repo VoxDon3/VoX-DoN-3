@@ -4,37 +4,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <title>VoX DoN 3 Host</title>
-  <link rel="stylesheet" href="main.css?v=clean4">
+  <link rel="stylesheet" href="main.css?v=slop1">
 </head>
 <body class="landing">
-
-  <!-- Full clean background = voxbackground.jpg (your new clean image) -->
-  <div class="bg"></div>
-
+  <div class="bg-main"></div>
   <div class="ui">
     <header class="top">
       <h1>VoX DoN 3 Host</h1>
       <p>Firmware: <span id="current-fw">Not detected</span></p>
     </header>
-
     <div class="mid"></div>
-
-    <!-- ONE Jailbreak button only -->
-    <a class="btn-jb" id="run-jb" href="progress.html?v=clean4">Jailbreak</a>
+    <a class="btn-jb" id="run-jb" href="progress.html">Jailbreak</a>
   </div>
-
   <script>
     (function () {
       try {
         var m = /PlayStation 5\/(\d+\.\d+)/.exec(navigator.userAgent || "");
         var el = document.getElementById("current-fw");
-        if (el) {
-          el.textContent = m ? m[1] : "Not detected";
-          el.style.color = m ? "#39ff14" : "#39ff14";
-        }
+        if (el) el.textContent = m ? m[1] : "Not detected";
       } catch (e) {}
       try { document.getElementById("run-jb").focus(); } catch (e) {}
     })();
