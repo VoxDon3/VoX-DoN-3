@@ -4,26 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <title>VoX DoN 3 Host — Jailbreak</title>
-  <link rel="stylesheet" href="main.css?v=clean4">
+  <title>VoX DoN 3 Host — SlopKit</title>
+  <link rel="stylesheet" href="main.css?v=slop1">
 </head>
-<body class="progress-page">
-  <div class="neon-frame">
-    <h1 class="neon-title">VoX DoN 3 Host</h1>
-    <p class="neon-sub">PS5 VoxDon3 Jailbreak (9.00–12.00) — IN PROGRESS...</p>
-    <div class="neon-panel">
-      <div class="neon-ps5" aria-hidden="true"></div>
-      <pre id="neon-log" class="neon-log"></pre>
-      <div class="neon-side" id="neon-side"></div>
-    </div>
-    <p class="neon-hint" id="neon-hint">Loading SlopKit chain…</p>
+<body class="slop-page">
+
+  <!-- Background = your clean image (no green text) -->
+  <div class="slop-bg"></div>
+
+  <!-- Green log ONLY — scrolls over empty black panel -->
+  <div class="slop-overlay">
+    <pre id="log" class="slop-log"></pre>
   </div>
+
   <script>
     (function () {
+      /* Real SlopKit after animation */
       var TARGET =
         "slopkit/poops.html?go=1&auto=1&production=1&trigger=netcontrol&attempts=8" +
         "&only=ps0_preflight,ps1_prepare,ps3_stage0,ps4_validate,ps5_stage1,ps6_stage2,ps8_stage3,ps9_stage4,ps10_stage5" +
         "&log=debug&payload=1&v=final";
+
       var lines = [
         "01060  [PREFLIGHT] ATTEMPT 8...",
         "02064  [PREFLIGHT] ATTEMPT 8...",
@@ -34,28 +35,32 @@
         "02003  [PS1_PREPARE] SUCCESS",
         "02007  [PS3_STAGE0] INIT KERNEL RW",
         "02016  [PS4_VALIDATE] CHECKING POINTERS",
+        "02011  [PS4_VALIDATE] CHECKING POINTERS",
         "02018  [PS4_VALIDATE] WEB ACCESS VALIDATED",
         "02012  [PS5_STAGE1] WEB ACCESS VALIDATED",
+        "02014  [PS5_STAGE1] WEB ACCESS VALIDATED",
         "02016  [PS5_STAGE1] PAYLOAD FOUND",
         "02031  [v=final] STAGING PAYLOAD...",
+        "02030  [v=final] STAGING PAYLOAD...",
         "02037  [v=5_STAGE1] STAGING PAYLOAD...",
+        "02036  [v=5_STAGE1] STAGING PAYLOAD...",
+        "02038  [v=5_STAGE1] STAGING PAYLOAD...",
         "02040  [CHAIN] HAND OFF TO SLOPKIT..."
       ];
-      var side = ["0x80000 offset0","0x80000 offset1","0x80000 offset2","0x80000 offset3","0x80000 offset4"];
-      var logEl = document.getElementById("neon-log");
-      var sideEl = document.getElementById("neon-side");
-      var hint = document.getElementById("neon-hint");
+
+      var el = document.getElementById("log");
       var i = 0;
+
       function tick() {
         if (i < lines.length) {
-          logEl.textContent += lines[i] + "\n";
-          if (i < side.length) sideEl.textContent += side[i] + "\n";
-          logEl.scrollTop = logEl.scrollHeight;
+          el.textContent += lines[i] + "\n";
+          el.scrollTop = el.scrollHeight;
           i++;
-          setTimeout(tick, 110 + Math.floor(Math.random() * 70));
+          setTimeout(tick, 95 + Math.floor(Math.random() * 70));
         } else {
-          if (hint) hint.textContent = "Starting real SlopKit exploit…";
-          setTimeout(function () { window.location.href = TARGET; }, 450);
+          setTimeout(function () {
+            window.location.href = TARGET;
+          }, 600);
         }
       }
       tick();
