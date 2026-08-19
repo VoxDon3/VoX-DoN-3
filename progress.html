@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <title>VoX DoN 3 Host — Jailbreak</title>
-  <link rel="stylesheet" href="main.css?v=voxui3">
+  <link rel="stylesheet" href="main.css?v=clean4">
 </head>
 <body class="progress-page">
   <div class="neon-frame">
@@ -15,7 +16,7 @@
       <pre id="neon-log" class="neon-log"></pre>
       <div class="neon-side" id="neon-side"></div>
     </div>
-    <p class="neon-hint" id="neon-hint">Loading SpKit chain…</p>
+    <p class="neon-hint" id="neon-hint">Loading SlopKit chain…</p>
   </div>
   <script>
     (function () {
@@ -33,19 +34,14 @@
         "02003  [PS1_PREPARE] SUCCESS",
         "02007  [PS3_STAGE0] INIT KERNEL RW",
         "02016  [PS4_VALIDATE] CHECKING POINTERS",
-        "02011  [PS4_VALIDATE] CHECKING POINTERS",
         "02018  [PS4_VALIDATE] WEB ACCESS VALIDATED",
         "02012  [PS5_STAGE1] WEB ACCESS VALIDATED",
-        "02014  [PS5_STAGE1] WEB ACCESS VALIDATED",
         "02016  [PS5_STAGE1] PAYLOAD FOUND",
         "02031  [v=final] STAGING PAYLOAD...",
-        "02030  [v=final] STAGING PAYLOAD...",
         "02037  [v=5_STAGE1] STAGING PAYLOAD...",
-        "02036  [v=5_STAGE1] STAGING PAYLOAD...",
-        "02038  [v=5_STAGE1] STAGING PAYLOAD...",
         "02040  [CHAIN] HAND OFF TO SLOPKIT..."
       ];
-      var side = ["0x80000 offset0","0x80000 offset1","0x80000 offset2","0x80000 offset3","0x80000 offset4","0x80000 offset5"];
+      var side = ["0x80000 offset0","0x80000 offset1","0x80000 offset2","0x80000 offset3","0x80000 offset4"];
       var logEl = document.getElementById("neon-log");
       var sideEl = document.getElementById("neon-side");
       var hint = document.getElementById("neon-hint");
@@ -56,10 +52,10 @@
           if (i < side.length) sideEl.textContent += side[i] + "\n";
           logEl.scrollTop = logEl.scrollHeight;
           i++;
-          setTimeout(tick, 100 + Math.floor(Math.random() * 80));
+          setTimeout(tick, 110 + Math.floor(Math.random() * 70));
         } else {
           if (hint) hint.textContent = "Starting real SlopKit exploit…";
-          setTimeout(function () { window.location.href = TARGET; }, 500);
+          setTimeout(function () { window.location.href = TARGET; }, 450);
         }
       }
       tick();
