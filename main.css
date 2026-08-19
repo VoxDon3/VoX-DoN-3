@@ -1,104 +1,162 @@
-:root {
-  --neon: #00e5ff;
-  --green: #39ff14;
-  --text: #f2f5ff;
-  --muted: #9aa3b5;
-  font-size: 17px;
-}
-* { box-sizing: border-box; }
+/* VoX DoN 3 — clean image full background, single Jailbreak */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 html, body {
-  margin: 0; padding: 0; height: 100%;
-  color: var(--text);
+  height: 100%;
+  overflow: hidden;
   font-family: Arial, Helvetica, sans-serif;
-  user-select: none; -webkit-user-select: none; overflow: hidden;
+  color: #fff;
+  background: #05060a;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-/* PAGE 1 — background = voxbackground.jpg (REPLACE that file with your image) */
-body.landing {
+/* Your clean image — cache-busted */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
   background-color: #05060a;
-  background-image: url('voxbackground.jpg');
+  background-image: url("voxbackground.jpg?v=clean4");
   background-size: cover;
-  background-position: center top;
+  background-position: center center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
 }
-.landing-screen {
-  min-height: 100%;
-  display: flex; flex-direction: column; align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1rem 1.6rem;
-}
-.top-card {
-  width: min(92vw, 420px);
-  background: linear-gradient(180deg, rgba(18,24,40,0.92), rgba(10,14,24,0.88));
-  border: 1px solid rgba(0,229,255,0.4);
-  border-radius: 1rem;
-  padding: 0.85rem 1rem;
-  text-align: center;
-  box-shadow: 0 0 24px rgba(0,229,255,0.2);
-}
-.brand-title {
-  margin: 0; font-size: 1.55rem; letter-spacing: 0.04em; color: #7df9ff;
-  text-shadow: 0 0 12px rgba(0,229,255,0.8), 0 0 28px rgba(59,130,246,0.45);
-}
-.fw-line { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.95rem; }
-.fw-val { font-weight: 800; color: var(--green); }
-.landing-spacer { flex: 1; width: 100%; }
-.btn-jb {
-  display: inline-block; width: min(92vw, 320px);
-  padding: 0.95rem 1.5rem; border-radius: 999px;
-  text-decoration: none; text-align: center;
-  font-size: 1.35rem; font-weight: 800; color: #fff;
-  background: linear-gradient(180deg, #4da3ff 0%, #2563eb 55%, #1d4ed8 100%);
-  border: 2px solid rgba(125,211,255,0.7);
-  box-shadow: 0 0 18px rgba(37,99,235,0.55), 0 8px 22px rgba(0,0,0,0.35);
-}
-.btn-jb:focus, .btn-jb:hover { outline: none; filter: brightness(1.08); }
-.btn-jb:active { transform: scale(0.98); }
 
-/* PAGE 2 — neon green SlopKit shell */
+.ui {
+  position: relative;
+  z-index: 2;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1rem 1.5rem;
+}
+
+.top {
+  width: min(92vw, 400px);
+  text-align: center;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  background: rgba(8, 12, 22, 0.78);
+  border: 1px solid rgba(0, 229, 255, 0.45);
+  box-shadow: 0 0 22px rgba(0, 180, 255, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.top h1 {
+  font-size: 1.45rem;
+  letter-spacing: 0.04em;
+  color: #7df9ff;
+  text-shadow: 0 0 14px rgba(0, 229, 255, 0.85);
+}
+
+.top p {
+  margin-top: 0.3rem;
+  font-size: 0.92rem;
+  color: #aab4c8;
+}
+
+.top span {
+  font-weight: 800;
+  color: #39ff14;
+}
+
+.mid { flex: 1; width: 100%; }
+
+/* Single clean blue Jailbreak — no duplicate */
+.btn-jb {
+  display: block;
+  width: min(88vw, 300px);
+  padding: 0.95rem 1.4rem;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #fff;
+  border-radius: 999px;
+  border: 2px solid rgba(160, 210, 255, 0.75);
+  background: linear-gradient(180deg, #5eb0ff 0%, #2b6ef6 50%, #1a4fd4 100%);
+  box-shadow:
+    0 0 20px rgba(40, 120, 255, 0.55),
+    0 10px 24px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.btn-jb:focus,
+.btn-jb:hover {
+  outline: none;
+  filter: brightness(1.1);
+}
+
+.btn-jb:active {
+  transform: scale(0.97);
+}
+
+/* PAGE 2 neon progress */
 body.progress-page {
   background: #02040a;
-  background-image:
-    radial-gradient(ellipse at 20% 10%, rgba(0,80,120,0.25), transparent 50%),
-    linear-gradient(180deg, #02040a, #050a14);
-  display: flex; align-items: center; justify-content: center; padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
 }
 .neon-frame { width: min(96vw, 900px); text-align: center; }
 .neon-title {
-  margin: 0; font-size: clamp(1.6rem, 5vw, 2.4rem); color: var(--neon);
-  text-shadow: 0 0 8px rgba(0,229,255,0.9), 0 0 24px rgba(0,180,255,0.55);
-  letter-spacing: 0.06em;
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  color: #00e5ff;
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.9), 0 0 28px rgba(0, 160, 255, 0.5);
+  letter-spacing: 0.05em;
 }
-.neon-sub { margin: 0.35rem 0 1rem; color: #c5d0e6; font-size: clamp(0.75rem, 2.4vw, 1rem); }
+.neon-sub { margin: 0.4rem 0 1rem; color: #c5d0e6; font-size: clamp(0.75rem, 2.4vw, 1rem); }
 .neon-panel {
   position: relative;
-  border: 2px solid rgba(0,229,255,0.55); border-radius: 1rem;
-  background: rgba(0,8,16,0.92);
-  box-shadow: 0 0 30px rgba(0,229,255,0.22);
-  min-height: 52vh; padding: 1rem;
-  display: grid; grid-template-columns: 1fr auto; gap: 0.5rem;
-  overflow: hidden; text-align: left;
+  border: 2px solid rgba(0, 229, 255, 0.55);
+  border-radius: 1rem;
+  background: rgba(0, 8, 16, 0.92);
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.22);
+  min-height: 52vh;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  text-align: left;
+  overflow: hidden;
 }
 .neon-ps5 {
   position: absolute; left: 50%; top: 50%;
   width: min(38vw, 180px); height: min(52vw, 250px);
-  transform: translate(-50%, -50%); opacity: 0.28; pointer-events: none;
-  border: 1px solid rgba(0,255,200,0.25); border-radius: 1.2rem 1.2rem 0.6rem 0.6rem;
+  transform: translate(-50%, -50%);
+  opacity: 0.25; pointer-events: none;
+  border: 1px solid rgba(0, 255, 200, 0.25);
+  border-radius: 1.2rem 1.2rem 0.6rem 0.6rem;
   background: radial-gradient(ellipse at center, rgba(0,255,200,0.12), transparent 65%);
 }
 .neon-log {
-  margin: 0; font-family: Consolas, "Courier New", monospace;
-  font-size: clamp(0.62rem, 2.1vw, 0.85rem); line-height: 1.45;
-  color: var(--green); text-shadow: 0 0 6px rgba(57,255,20,0.35);
-  white-space: pre-wrap; word-break: break-all; max-height: 52vh; overflow: hidden; z-index: 1;
+  margin: 0;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: clamp(0.62rem, 2.1vw, 0.85rem);
+  line-height: 1.45;
+  color: #39ff14;
+  text-shadow: 0 0 6px rgba(57, 255, 20, 0.35);
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 52vh;
+  overflow: hidden;
+  z-index: 1;
 }
 .neon-side {
   font-family: Consolas, "Courier New", monospace;
-  font-size: clamp(0.55rem, 1.8vw, 0.75rem); color: #6dffb0; opacity: 0.85;
-  white-space: pre; z-index: 1;
+  font-size: clamp(0.55rem, 1.8vw, 0.75rem);
+  color: #6dffb0;
+  opacity: 0.85;
+  white-space: pre;
+  z-index: 1;
 }
-.neon-hint { margin: 0.9rem 0 0; color: var(--muted); font-size: 0.85rem; }
+.neon-hint { margin: 0.9rem 0 0; color: #9aa3b5; font-size: 0.85rem; }
 @media (max-width: 480px) {
   .neon-panel { grid-template-columns: 1fr; }
   .neon-side { display: none; }
