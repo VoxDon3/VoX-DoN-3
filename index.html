@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>VoX DoN 3 Host</title>
+  <link rel="stylesheet" href="main.css?v=voxui3">
+</head>
+<body class="landing">
+  <div class="landing-screen">
+    <div class="top-card">
+      <h1 class="brand-title">VoX DoN 3 Host</h1>
+      <p class="fw-line">Firmware: <span id="current-fw" class="fw-val">Not detected</span></p>
+    </div>
+    <div class="landing-spacer"></div>
+    <a tabindex="0" class="btn-jb" id="run-jb" href="progress.html">Jailbreak</a>
+  </div>
+  <script>
+    (function () {
+      try {
+        var m = /PlayStation 5\/(\d+\.\d+)/.exec(navigator.userAgent || "");
+        var fw = m ? m[1] : "";
+        var el = document.getElementById("current-fw");
+        if (el) {
+          el.textContent = fw || "Not detected";
+          el.className = "fw-val " + (fw ? "fw-ok" : "fw-miss");
+        }
+      } catch (e) {}
+      try { document.getElementById("run-jb").focus(); } catch (e) {}
+    })();
+  </script>
+</body>
+</html>
