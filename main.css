@@ -1,4 +1,4 @@
-/* VoX DoN 3 — clean image full background, single Jailbreak */
+/* VoX DoN 3 Host — main + clean SlopKit background + green log only */
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -6,22 +6,20 @@ html, body {
   height: 100%;
   overflow: hidden;
   font-family: Arial, Helvetica, sans-serif;
+  background: #000;
   color: #fff;
-  background: #05060a;
   user-select: none;
   -webkit-user-select: none;
 }
 
-/* Your clean image — cache-busted */
-.bg {
+/* ========== PAGE 1 — Landing ========== */
+body.landing { background: #05060a; }
+
+.bg-main {
   position: fixed;
   inset: 0;
   z-index: 0;
-  background-color: #05060a;
-  background-image: url("voxbackground.jpg?v=clean4");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  background: #05060a url("voxbackground.jpg?v=slop1") center center / cover no-repeat;
 }
 
 .ui {
@@ -43,8 +41,6 @@ html, body {
   background: rgba(8, 12, 22, 0.78);
   border: 1px solid rgba(0, 229, 255, 0.45);
   box-shadow: 0 0 22px rgba(0, 180, 255, 0.25);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 .top h1 {
@@ -67,7 +63,6 @@ html, body {
 
 .mid { flex: 1; width: 100%; }
 
-/* Single clean blue Jailbreak — no duplicate */
 .btn-jb {
   display: block;
   width: min(88vw, 300px);
@@ -80,84 +75,67 @@ html, body {
   border-radius: 999px;
   border: 2px solid rgba(160, 210, 255, 0.75);
   background: linear-gradient(180deg, #5eb0ff 0%, #2b6ef6 50%, #1a4fd4 100%);
-  box-shadow:
-    0 0 20px rgba(40, 120, 255, 0.55),
-    0 10px 24px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 0 20px rgba(40, 120, 255, 0.55), 0 10px 24px rgba(0, 0, 0, 0.4);
 }
 
-.btn-jb:focus,
-.btn-jb:hover {
-  outline: none;
-  filter: brightness(1.1);
-}
+.btn-jb:focus, .btn-jb:hover { outline: none; filter: brightness(1.1); }
+.btn-jb:active { transform: scale(0.97); }
 
-.btn-jb:active {
-  transform: scale(0.97);
-}
-
-/* PAGE 2 neon progress */
-body.progress-page {
-  background: #02040a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-.neon-frame { width: min(96vw, 900px); text-align: center; }
-.neon-title {
-  font-size: clamp(1.6rem, 5vw, 2.4rem);
-  color: #00e5ff;
-  text-shadow: 0 0 10px rgba(0, 229, 255, 0.9), 0 0 28px rgba(0, 160, 255, 0.5);
-  letter-spacing: 0.05em;
-}
-.neon-sub { margin: 0.4rem 0 1rem; color: #c5d0e6; font-size: clamp(0.75rem, 2.4vw, 1rem); }
-.neon-panel {
+/* ========== PAGE 2 — SlopKit clean BG + green text only ========== */
+body.slop-page {
+  background: #000;
   position: relative;
-  border: 2px solid rgba(0, 229, 255, 0.55);
-  border-radius: 1rem;
-  background: rgba(0, 8, 16, 0.92);
-  box-shadow: 0 0 30px rgba(0, 229, 255, 0.22);
-  min-height: 52vh;
-  padding: 1rem;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.5rem;
-  text-align: left;
+}
+
+/* Your cleaned image — NO green text inside the file */
+.slop-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: #000 url("slopkit-bg.jpg?v=slop1") center center / cover no-repeat;
+}
+
+/*
+  Green log overlay sits over the empty black panel of the image.
+  Tuned for typical phone / TV browser view of that screenshot composition.
+*/
+.slop-overlay {
+  position: fixed;
+  z-index: 2;
+  /* Approximate the inner black panel of the monitor in the clean image */
+  left: 8%;
+  right: 8%;
+  top: 28%;
+  bottom: 12%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  pointer-events: none;
   overflow: hidden;
+  padding: 2% 3%;
 }
-.neon-ps5 {
-  position: absolute; left: 50%; top: 50%;
-  width: min(38vw, 180px); height: min(52vw, 250px);
-  transform: translate(-50%, -50%);
-  opacity: 0.25; pointer-events: none;
-  border: 1px solid rgba(0, 255, 200, 0.25);
-  border-radius: 1.2rem 1.2rem 0.6rem 0.6rem;
-  background: radial-gradient(ellipse at center, rgba(0,255,200,0.12), transparent 65%);
-}
-.neon-log {
+
+.slop-log {
   margin: 0;
-  font-family: Consolas, "Courier New", monospace;
-  font-size: clamp(0.62rem, 2.1vw, 0.85rem);
-  line-height: 1.45;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: clamp(0.55rem, 2.2vw, 0.95rem);
+  line-height: 1.4;
   color: #39ff14;
-  text-shadow: 0 0 6px rgba(57, 255, 20, 0.35);
+  text-shadow: 0 0 6px rgba(57, 255, 20, 0.45);
   white-space: pre-wrap;
   word-break: break-all;
-  max-height: 52vh;
-  overflow: hidden;
-  z-index: 1;
+  background: transparent;
 }
-.neon-side {
-  font-family: Consolas, "Courier New", monospace;
-  font-size: clamp(0.55rem, 1.8vw, 0.75rem);
-  color: #6dffb0;
-  opacity: 0.85;
-  white-space: pre;
-  z-index: 1;
-}
-.neon-hint { margin: 0.9rem 0 0; color: #9aa3b5; font-size: 0.85rem; }
-@media (max-width: 480px) {
-  .neon-panel { grid-template-columns: 1fr; }
-  .neon-side { display: none; }
+
+@media (min-width: 700px) {
+  .slop-overlay {
+    left: 12%;
+    right: 18%;
+    top: 26%;
+    bottom: 14%;
+  }
+  .slop-log { font-size: 0.9rem; }
 }
