@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" manifest="cache.appcache">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <title>VoX DoN 3 Host</title>
-  <link rel="stylesheet" href="main.css?v=slop1">
+  <link rel="stylesheet" href="main.css">
 </head>
 <body class="landing">
   <div class="bg-main"></div>
@@ -13,10 +12,12 @@
     <header class="top">
       <h1>VoX DoN 3 Host</h1>
       <p>Firmware: <span id="current-fw">Not detected</span></p>
+      <p id="cache-status"></p>
     </header>
     <div class="mid"></div>
     <a class="btn-jb" id="run-jb" href="progress.html">Jailbreak</a>
   </div>
+  <script src="cache-status.js"></script>
   <script>
     (function () {
       try {

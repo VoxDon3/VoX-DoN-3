@@ -1,25 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" manifest="cache.appcache">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <title>VoX DoN 3 Host — SlopKit</title>
-  <link rel="stylesheet" href="main.css?v=slop1">
+  <link rel="stylesheet" href="main.css">
 </head>
 <body class="slop-page">
 
-  <!-- Background = your clean image (no green text) -->
   <div class="slop-bg"></div>
 
-  <!-- Green log ONLY — scrolls over empty black panel -->
   <div class="slop-overlay">
     <pre id="log" class="slop-log"></pre>
   </div>
 
   <script>
     (function () {
-      /* Real SlopKit after animation */
       var TARGET =
         "slopkit/poops.html?go=1&auto=1&production=1&trigger=netcontrol&attempts=8" +
         "&only=ps0_preflight,ps1_prepare,ps3_stage0,ps4_validate,ps5_stage1,ps6_stage2,ps8_stage3,ps9_stage4,ps10_stage5" +
