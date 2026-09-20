@@ -61,12 +61,6 @@ body.landing { background: #05060a; }
   color: #39ff14;
 }
 
-#cache-status {
-  margin-top: 0.45rem;
-  font-size: 0.82rem;
-  color: #7df9ff;
-}
-
 .mid { flex: 1; width: 100%; }
 
 .btn-jb {
