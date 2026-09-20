@@ -1,7 +1,7 @@
 /* VoX DoN 3 -- Service Worker (offline cache)
    ملاحظة: بعد أي تعديل على ملفات الهوست غيّر CACHE_NAME في هذا الملف
    حتى يتحدث الكاش على الأجهزة. وبعد الرفع انتظر ~10 دقائق حتى يتحدث السيرفر. */
-var CACHE_NAME = "voxdon-cache-v1";
+var CACHE_NAME = "voxdon-cache-v2";
 
 var PRECACHE = [
   "index.html",
