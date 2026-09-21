@@ -1,0 +1,50 @@
+CACHE MANIFEST
+# VoX-DoN-3 offline cache (light build ~3.9MB)
+# غيّر رقم الإصدار بعد أي تعديل على الملفات
+# version: 2026-09-21-light
+
+CACHE:
+index.html
+progress.html
+main.css
+cache-status.js
+voxbackground.jpg
+slopkit-bg.jpg
+
+slopkit/poops.html
+slopkit/poops.js
+slopkit/core.js
+slopkit/int64.js
+slopkit/main.js
+slopkit/mem.js
+slopkit/rop.js
+slopkit/rop_slave.js
+slopkit/syscalls.js
+slopkit/vox-slopkit-ui.css
+
+offsets/9.00.js
+offsets/9.05.js
+offsets/9.20.js
+offsets/9.40.js
+offsets/9.60.js
+offsets/10.00.js
+offsets/10.01.js
+offsets/10.20.js
+offsets/10.40.js
+offsets/10.60.js
+offsets/11.00.js
+offsets/11.20.js
+offsets/11.40.js
+offsets/11.60.js
+offsets/12.00.js
+
+payloads/kexp_2026_05_25.bin
+payloads/elfldr-ps5-1360.elf
+payloads/kstuff.elf
+payloads/nanodns.elf
+
+NETWORK:
+*
+
+FALLBACK:
+/ index.html

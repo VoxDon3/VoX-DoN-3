@@ -418,6 +418,7 @@ h1 {
     <a class="payloadTile" href="#" data-name="kstuff.elf"><span class="payloadCopy"><strong class="payloadName">ps5-kstuff</strong><small class="payloadDesc">Kernel support payload and FPKG enabler.</small></span><span class="payloadStatus" data-ready="kstuff.elf - EchoStretch">kstuff.elf &centerdot; EchoStretch</span></a>
     <a class="payloadTile" href="#" data-name="PLK.elf"><span class="payloadCopy"><strong class="payloadName">PLK Manager</strong><small class="payloadDesc">Payload management tools.</small></span><span class="payloadStatus" data-ready="PLK.elf - PLK">PLK.elf &centerdot; PLK</span></a>
     <a class="payloadTile" href="#" data-name="shadowmountplus.elf"><span class="payloadCopy"><strong class="payloadName">ShadowMountPlus</strong><small class="payloadDesc">Mount and manage game images.</small></span><span class="payloadStatus" data-ready="shadowmountplus.elf - Drakmor">shadowmountplus.elf &centerdot; Drakmor</span></a>
+    <a class="payloadTile" href="#" data-name="nanodns.elf"><span class="payloadCopy"><strong class="payloadName">nanoDNS</strong><small class="payloadDesc">Block Sony servers &amp; use internet safely.</small></span><span class="payloadStatus" data-ready="nanodns.elf - Drakmor">nanodns.elf &centerdot; Drakmor</span></a>
   </div>
 </div>
 <div id="payloadToastContainer"></div>
@@ -1041,7 +1042,7 @@ async function openPayloadManagerAndInject() {
     // Give elfldr a moment to fully bind 9021 after stage5
     await new Promise(function (r) { setTimeout(r, 1200); });
 
-    const order = ["pldmgr_v0.5.0.elf", "PLK.elf"];
+    const order = ["kstuff.elf", "nanodns.elf"];
     for (let i = 0; i < order.length; ++i) {
         const name = order[i];
         const tile = findPayloadTile(name);
