@@ -4,7 +4,7 @@ CACHE MANIFEST
 # payloads/pldmgr_v0.5.1.elf stays under NETWORK below: it is 2.4 MB and is
 # fetched fresh every time, so the cache quota stays where it was.
 # غيّر رقم الإصدار بعد أي تعديل على الملفات
-# version: 2026-09-29-pldmgr-v051
+# version: 2026-09-29-pldmgr-v051-r2
 
 CACHE:
 index.html

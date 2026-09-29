@@ -1047,16 +1047,23 @@ function latestPayloadManagerTile() {
 
 /** Port 9021 is the only honest proof the loader is alive: elfldr binds it a
  *  while after stage5 reports success. Poll it before spending the one payload
- *  it will accept, instead of guessing with a fixed sleep. */
+ *  it will accept, instead of guessing with a fixed sleep.
+ *  Returns {owned, waited}: waited counts the sleeps it really performed, and
+ *  the verdict stays separate from it, because 0 ms is a legal answer and must
+ *  never be read as "the port is free". */
 async function waitForElfldrPort(attempts, delayMs) {
+    let waited = 0;
     for (let i = 0; i < attempts; ++i) {
-        if (i) await new Promise(function (r) { setTimeout(r, delayMs); });
+        if (i) {
+            await new Promise(function (r) { setTimeout(r, delayMs); });
+            waited += delayMs;
+        }
         let owned = false;
         try { owned = await probeExistingElfLoader(); }
-        catch (e) { return 0; }
-        if (owned) return (i + 1) * delayMs;
+        catch (e) { return { owned: false, waited: waited }; }
+        if (owned) return { owned: true, waited: waited };
     }
-    return 0;
+    return { owned: false, waited: waited };
 }
 
 async function openPayloadManagerAndInject() {
@@ -1082,28 +1089,40 @@ async function openPayloadManagerAndInject() {
     }
     const name = tile.getAttribute("data-name");
 
-    const waited = await waitForElfldrPort(24, 250);
-    if (!waited) {
+    const loader = await waitForElfldrPort(24, 250);
+    if (!loader.owned) {
         stage("ELF loader did not open port " + PAYLOAD_PORT, "bad");
         payloadMenuStatus("ELF loader did not open port " + PAYLOAD_PORT
             + " — the jailbreak has to succeed before the Payload Manager.");
-        flushMark("PLDMGR-LOADER-NOT-READY", "port=9021-free-name=" + name);
+        flushMark("PLDMGR-LOADER-NOT-READY", "port=9021-free-after="
+            + loader.waited + "ms-name=" + name);
         return;
     }
-    flushMark("PLDMGR-LOADER-READY", "after=" + waited + "ms-name=" + name);
+    flushMark("PLDMGR-LOADER-READY", "after=" + loader.waited + "ms-name=" + name);
 
-    let sent = false;
+    /* A manual tap can already own the loader, so the send may be skipped
+     * (null) instead of failing; the busy case is reported on its own. */
+    let sent = false, busy = false;
     for (let attempt = 0; attempt < 3 && !sent; ++attempt) {
         if (attempt) {
             /* 9021 bindable again means the loader took the bytes and exited;
              * sending a second time would only fail. */
-            if (!(await waitForElfldrPort(1, 0))) break;
+            if (!(await waitForElfldrPort(1, 0)).owned) break;
             await new Promise(function (r) { setTimeout(r, 800); });
         }
         stage("Sending Payload Manager: " + name, "ok");
         payloadMenuStatus("Sending Payload Manager: " + name + " ...");
         flushMark("PLDMGR-AUTO-SEND", "name=" + name + "-attempt=" + attempt);
-        sent = await sendPayloadInPlace(name, tile);
+        const outcome = await sendPayloadInPlace(name, tile);
+        if (outcome === true) sent = true;
+        else if (outcome === null) busy = true;
+    }
+    if (busy && !sent) {
+        stage("Another payload is already using the loader", "bad");
+        payloadMenuStatus("Another payload is already using the loader — the "
+            + name + " was not sent. Tap it above to send it again.");
+        flushMark("PLDMGR-AUTO-BUSY", "name=" + name);
+        return;
     }
     if (!sent) {
         stage("Payload Manager was not accepted by the loader: " + name, "bad");
@@ -1447,7 +1466,9 @@ async function sendPayloadToElfldr(name) {
 }
 
 async function sendPayloadInPlace(name, tile) {
-    if (payloadSendBusy) return;
+    /* null = skipped, another send owns the loader; the automatic Payload
+     * Manager send tells that apart from a real failure. */
+    if (payloadSendBusy) return null;
     payloadSendBusy = true;
     const titleEl = tile.getElementsByClassName("payloadName")[0];
     const title = titleEl ? titleEl.textContent : name;
