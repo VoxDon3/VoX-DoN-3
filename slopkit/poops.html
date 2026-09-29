@@ -409,7 +409,7 @@ h1 {
     <a class="homeLink" href="../index.html">Home</a>
   </div>
   <div class="payloadGrid">
-    <a class="payloadTile" href="#" data-name="pldmgr_v0.5.0.elf"><span class="payloadCopy"><strong class="payloadName">Payload Manager</strong><small class="payloadDesc">Full payload manager UI on the console.</small></span><span class="payloadStatus" data-ready="pldmgr_v0.5.0.elf">pldmgr_v0.5.0.elf</span></a>
+    <a class="payloadTile" href="#" data-name="pldmgr_v0.5.1.elf"><span class="payloadCopy"><strong class="payloadName">Payload Manager</strong><small class="payloadDesc">Full payload manager UI on the console.</small></span><span class="payloadStatus" data-ready="pldmgr_v0.5.1.elf - itsPLK">pldmgr_v0.5.1.elf &centerdot; itsPLK</span></a>
     <a class="payloadTile" href="#" data-name="ftpsrv-ps5.elf"><span class="payloadCopy"><strong class="payloadName">ftpsrv</strong><small class="payloadDesc">FTP server. Runs on port 2121.</small></span><span class="payloadStatus" data-ready="ftpsrv-ps5.elf - john-tornblom">ftpsrv-ps5.elf &centerdot; john-tornblom</span></a>
     <a class="payloadTile" href="#" data-name="gdbsrv-ps5.elf"><span class="payloadCopy"><strong class="payloadName">gdbsrv</strong><small class="payloadDesc">GDB server. Runs on port 2159.</small></span><span class="payloadStatus" data-ready="gdbsrv-ps5.elf - john-tornblom">gdbsrv-ps5.elf &centerdot; john-tornblom</span></a>
     <a class="payloadTile" href="#" data-name="klogsrv-ps5.elf"><span class="payloadCopy"><strong class="payloadName">klogsrv</strong><small class="payloadDesc">Kernel log server. Runs on port 3232.</small></span><span class="payloadStatus" data-ready="klogsrv-ps5.elf - john-tornblom">klogsrv-ps5.elf &centerdot; john-tornblom</span></a>
@@ -1025,6 +1025,40 @@ function findPayloadTile(name) {
     }
     return null;
 }
+/** أعلى إصدارٍ من بيلود المانجر среди بلاطات هذه الصفحة.
+ *  The ELF loader accepts exactly ONE payload and then exits, so this is the
+ *  only payload the page may spend by itself; every other tile stays manual. */
+function latestPayloadManagerTile() {
+    const tiles = payloadMenuEl
+        ? payloadMenuEl.getElementsByClassName("payloadTile") : [];
+    let best = null, bestVersion = -1;
+    for (let i = 0; i < tiles.length; ++i) {
+        const name = tiles[i].getAttribute("data-name") || "";
+        const m = /^pldmgr[_-]?v?(\d+(?:\.\d+)*)\.elf$/i.exec(name);
+        if (!m) continue;
+        const parts = m[1].split(".");
+        let version = 0;
+        for (let p = 0; p < parts.length; ++p)
+            version = version * 1000 + (parseInt(parts[p], 10) || 0);
+        if (version > bestVersion) { bestVersion = version; best = tiles[i]; }
+    }
+    return best;
+}
+
+/** Port 9021 is the only honest proof the loader is alive: elfldr binds it a
+ *  while after stage5 reports success. Poll it before spending the one payload
+ *  it will accept, instead of guessing with a fixed sleep. */
+async function waitForElfldrPort(attempts, delayMs) {
+    for (let i = 0; i < attempts; ++i) {
+        if (i) await new Promise(function (r) { setTimeout(r, delayMs); });
+        let owned = false;
+        try { owned = await probeExistingElfLoader(); }
+        catch (e) { return 0; }
+        if (owned) return (i + 1) * delayMs;
+    }
+    return 0;
+}
+
 async function openPayloadManagerAndInject() {
     elfldrSpawned = true;
     try {
@@ -1039,27 +1073,48 @@ async function openPayloadManagerAndInject() {
     if (payloadManagerInjected) return;
     payloadManagerInjected = true;
 
-    // Give elfldr a moment to fully bind 9021 after stage5
-    await new Promise(function (r) { setTimeout(r, 1200); });
-
-    const order = ["kstuff.elf", "nanodns.elf"];
-    for (let i = 0; i < order.length; ++i) {
-        const name = order[i];
-        const tile = findPayloadTile(name);
-        if (!tile) continue;
-        try {
-            stage("Sending Payload Manager: " + name, "ok");
-            flushMark("PLDMGR-AUTO-SEND", "name=" + name);
-            await sendPayloadInPlace(name, tile);
-            stage("Payload Manager sent: " + name, "ok");
-            flushMark("PLDMGR-AUTO-SENT", "name=" + name);
-            return;
-        } catch (err) {
-            flushMark("PLDMGR-AUTO-FAIL", "name=" + name + "-why="
-                + clean((err && err.message) || err));
-        }
+    const tile = latestPayloadManagerTile();
+    if (!tile) {
+        stage("No Payload Manager tile on this page", "bad");
+        payloadMenuStatus("No Payload Manager tile on this page.");
+        flushMark("PLDMGR-AUTO-NOTILE", "name=-");
+        return;
     }
-    stage("Payload menu ready — select a payload", "ok");
+    const name = tile.getAttribute("data-name");
+
+    const waited = await waitForElfldrPort(24, 250);
+    if (!waited) {
+        stage("ELF loader did not open port " + PAYLOAD_PORT, "bad");
+        payloadMenuStatus("ELF loader did not open port " + PAYLOAD_PORT
+            + " — the jailbreak has to succeed before the Payload Manager.");
+        flushMark("PLDMGR-LOADER-NOT-READY", "port=9021-free-name=" + name);
+        return;
+    }
+    flushMark("PLDMGR-LOADER-READY", "after=" + waited + "ms-name=" + name);
+
+    let sent = false;
+    for (let attempt = 0; attempt < 3 && !sent; ++attempt) {
+        if (attempt) {
+            /* 9021 bindable again means the loader took the bytes and exited;
+             * sending a second time would only fail. */
+            if (!(await waitForElfldrPort(1, 0))) break;
+            await new Promise(function (r) { setTimeout(r, 800); });
+        }
+        stage("Sending Payload Manager: " + name, "ok");
+        payloadMenuStatus("Sending Payload Manager: " + name + " ...");
+        flushMark("PLDMGR-AUTO-SEND", "name=" + name + "-attempt=" + attempt);
+        sent = await sendPayloadInPlace(name, tile);
+    }
+    if (!sent) {
+        stage("Payload Manager was not accepted by the loader: " + name, "bad");
+        payloadMenuStatus("Payload Manager was not accepted by the loader: "
+            + name + " — tap a payload above to send it again.");
+        flushMark("PLDMGR-AUTO-FAIL", "name=" + name);
+        return;
+    }
+    stage("Payload Manager sent: " + name, "ok");
+    payloadMenuStatus("Payload Manager sent: " + name);
+    flushMark("PLDMGR-AUTO-SENT", "name=" + name);
 }
 
 function showPayloadMenu(readyState) {
@@ -1123,6 +1178,14 @@ function showPayloadMenu(readyState) {
             + "-firstW=" + (firstRect ? Math.round(firstRect.width) : 0));
         sendRemoteEvents(false);
     }, 0);
+}
+
+/* The menu's own status line. stage() cannot report a failure once the loader
+ * is up (it stops writing "bad" text then), so the outcome of the automatic
+ * send is written here where the user is already looking. */
+function payloadMenuStatus(text) {
+    const progress = document.getElementById("payloadProgress");
+    if (progress) progress.textContent = text;
 }
 
 function setPayloadTileState(tile, state) {
@@ -1407,6 +1470,7 @@ async function sendPayloadInPlace(name, tile) {
         if (result.closeWarning)
             flushMark("ELF-SOCKET-CLOSE-WARN", "name=" + clean(result.name)
                 + "-why=" + clean(result.closeWarning.message || result.closeWarning));
+        return true;
     } catch (error) {
         tile.className = "payloadTile";
         setPayloadTileState(tile, "failed");
@@ -1415,6 +1479,7 @@ async function sendPayloadInPlace(name, tile) {
         dismissPayloadToast(toast, 5000);
         flushMark("ELF-SEND-FAILED", "name=" + clean(name) + "-why="
             + clean(error && error.message ? error.message : error));
+        return false;
     } finally {
         if (payloadSenderBlocked) {
             payloadSendBusy = true;

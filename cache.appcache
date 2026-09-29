@@ -1,8 +1,10 @@
 CACHE MANIFEST
 # VoX-DoN-3 offline cache (light build ~3.3MB)
 # v2: entries match the exact URLs the pages request (with ?v=final)
+# payloads/pldmgr_v0.5.1.elf stays under NETWORK below: it is 2.4 MB and is
+# fetched fresh every time, so the cache quota stays where it was.
 # غيّر رقم الإصدار بعد أي تعديل على الملفات
-# version: 2026-09-21-light-v2
+# version: 2026-09-29-pldmgr-v051
 
 CACHE:
 index.html
