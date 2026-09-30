@@ -1,10 +1,12 @@
 CACHE MANIFEST
-# VoX-DoN-3 offline cache (light build ~3.3MB)
+# VoX-DoN-3 offline cache (~5.7MB)
 # v2: entries match the exact URLs the pages request (with ?v=final)
-# payloads/pldmgr_v0.5.1.elf stays under NETWORK below: it is 2.4 MB and is
-# fetched fresh every time, so the cache quota stays where it was.
+# payloads/pldmgr_v0.5.1.elf is cached on purpose: the page fetches it at
+# jailbreak time, so leaving it under NETWORK made the Payload Manager window
+# fail to open whenever the console was offline. Cached, it now comes out of
+# the AppCache and the offline re-jailbreak opens it with no network at all.
 # غيّر رقم الإصدار بعد أي تعديل على الملفات
-# version: 2026-09-29-pldmgr-v051-r2
+# version: 2026-09-30-pldmgr-v051-cached-r3
 
 CACHE:
 index.html
@@ -46,6 +48,7 @@ payloads/kexp_2026_05_25.bin
 payloads/elfldr-ps5-1360.elf
 payloads/kstuff.elf
 payloads/nanodns.elf
+payloads/pldmgr_v0.5.1.elf
 
 NETWORK:
 *
