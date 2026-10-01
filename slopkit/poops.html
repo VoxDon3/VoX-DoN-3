@@ -409,7 +409,7 @@ h1 {
     <a class="homeLink" href="../index.html">Home</a>
   </div>
   <div class="payloadGrid">
-    <a class="payloadTile" href="#" data-name="pldmgr_v0.5.1.elf"><span class="payloadCopy"><strong class="payloadName">Payload Manager</strong><small class="payloadDesc">Full payload manager UI on the console.</small></span><span class="payloadStatus" data-ready="pldmgr_v0.5.1.elf - itsPLK">pldmgr_v0.5.1.elf &centerdot; itsPLK</span></a>
+    <a class="payloadTile" href="#" data-name="pldmgr_v0.5.2.elf"><span class="payloadCopy"><strong class="payloadName">Payload Manager</strong><small class="payloadDesc">Full payload manager UI on the console.</small></span><span class="payloadStatus" data-ready="pldmgr_v0.5.2.elf - itsPLK">pldmgr_v0.5.2.elf &centerdot; itsPLK</span></a>
     <a class="payloadTile" href="#" data-name="ftpsrv-ps5.elf"><span class="payloadCopy"><strong class="payloadName">ftpsrv</strong><small class="payloadDesc">FTP server. Runs on port 2121.</small></span><span class="payloadStatus" data-ready="ftpsrv-ps5.elf - john-tornblom">ftpsrv-ps5.elf &centerdot; john-tornblom</span></a>
     <a class="payloadTile" href="#" data-name="gdbsrv-ps5.elf"><span class="payloadCopy"><strong class="payloadName">gdbsrv</strong><small class="payloadDesc">GDB server. Runs on port 2159.</small></span><span class="payloadStatus" data-ready="gdbsrv-ps5.elf - john-tornblom">gdbsrv-ps5.elf &centerdot; john-tornblom</span></a>
     <a class="payloadTile" href="#" data-name="klogsrv-ps5.elf"><span class="payloadCopy"><strong class="payloadName">klogsrv</strong><small class="payloadDesc">Kernel log server. Runs on port 3232.</small></span><span class="payloadStatus" data-ready="klogsrv-ps5.elf - john-tornblom">klogsrv-ps5.elf &centerdot; john-tornblom</span></a>
@@ -1082,6 +1082,7 @@ async function openPayloadManagerAndInject() {
 
     const tile = latestPayloadManagerTile();
     if (!tile) {
+        payloadManagerInjected = false;
         stage("No Payload Manager tile on this page", "bad");
         payloadMenuStatus("No Payload Manager tile on this page.");
         flushMark("PLDMGR-AUTO-NOTILE", "name=-");
@@ -1089,8 +1090,13 @@ async function openPayloadManagerAndInject() {
     }
     const name = tile.getAttribute("data-name");
 
-    const loader = await waitForElfldrPort(24, 250);
+    /* 80 x 250 ms = 20 s. elfldr binds 9021 only after the stage5 thread has
+     * actually been scheduled and ran, and on a cold PS5 that can take far
+     * longer than the 5.75 s the first attempt used to allow; giving up that
+     * early is what made the Payload Manager "not get invoked". */
+    const loader = await waitForElfldrPort(80, 250);
     if (!loader.owned) {
+        payloadManagerInjected = false;
         stage("ELF loader did not open port " + PAYLOAD_PORT, "bad");
         payloadMenuStatus("ELF loader did not open port " + PAYLOAD_PORT
             + " — the jailbreak has to succeed before the Payload Manager.");
@@ -1118,6 +1124,7 @@ async function openPayloadManagerAndInject() {
         else if (outcome === null) busy = true;
     }
     if (busy && !sent) {
+        payloadManagerInjected = false;
         stage("Another payload is already using the loader", "bad");
         payloadMenuStatus("Another payload is already using the loader — the "
             + name + " was not sent. Tap it above to send it again.");
@@ -1125,6 +1132,7 @@ async function openPayloadManagerAndInject() {
         return;
     }
     if (!sent) {
+        payloadManagerInjected = false;
         stage("Payload Manager was not accepted by the loader: " + name, "bad");
         payloadMenuStatus("Payload Manager was not accepted by the loader: "
             + name + " — tap a payload above to send it again.");
