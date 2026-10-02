@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" manifest="../cache.appcache">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VoX DoN 3 Host — SlopKit</title>
+<title>slopkit</title>
+<link rel="manifest" href="../cache.appcache">
+<link rel="preload" href="cat.jpg" as="image">
+<link rel="preload" href="mmhmm-cats-ps5.gif" as="image">
 
 <script>(function () {
     var pending = [];
@@ -139,8 +142,6 @@
         box-shadow: 0 18px 42px rgba(0,0,0,.34), inset 0 1px rgba(255,255,255,.04);
         border-radius: 14px; padding: 13px 15px; margin: 10px auto 0; }
 
-  body.loader-ready #scr, body.prompt-ready #scr { display:none; }
-
   body.quiet tr:not(.r-FAIL) td.d .note   { display: none; }
 
   body.quiet tr:not(.r-FAIL) td.d > span:first-child {
@@ -160,225 +161,166 @@
     font-size:25px; font-weight:800; text-align:center; letter-spacing:.02em; }
   #failureMessage.on { display:block; }
 
-  body.loader-ready, body.prompt-ready { justify-content:flex-start; overflow-y:auto;
-    padding-top:36px; font-family:"Segoe UI",Arial,sans-serif; }
-  body.loader-ready #cat, body.prompt-ready #cat { display:none; }
-  body.loader-ready #nav { display:none !important; }
-  #payloadMenu { display:none; width:1220px; max-width:94vw; margin:0 auto 30px; }
-  #payloadMenu.on { display:block; }
-  .payloadHeader { position:relative; margin:0 6px 24px; padding:24px 26px;
-    border:1px solid rgba(255,255,255,.12); border-radius:22px;
-    background:linear-gradient(135deg,rgba(35,39,83,.94),rgba(15,20,38,.94));
-    box-shadow:0 18px 48px rgba(0,0,0,.3); }
-  .payloadEyebrow { color:#67e2ad; font-size:12px; font-weight:900;
-    letter-spacing:.22em; text-transform:uppercase; }
-  .payloadHeader h2 { margin:6px 0 4px; color:#fff; font-size:38px;
-    line-height:1.1; letter-spacing:-.03em; }
-  .payloadHeader p { margin:0; color:#aeb7ce; font-size:16px; }
-  .homeLink { position:absolute; top:25px; right:25px; padding:10px 15px;
-    border:1px solid rgba(255,255,255,.16); border-radius:12px; color:#dce3f5;
-    background:rgba(255,255,255,.06); text-decoration:none; font-size:14px;
-    font-weight:700; }
-  .homeLink:focus { outline:3px solid #fff; }
-  #payloadMenu .payloadGrid { display:block; font-size:0; }
-  #payloadMenu .payloadTile {
-    box-sizing:border-box; position:relative; display:inline-block; vertical-align:top;
-    width:calc(33.333% - 12px); min-width:0; min-height:108px;
-    margin:6px; padding:18px 18px; border:1px solid rgba(255,255,255,.12);
-    border-radius:18px; color:#f5f7ff; background:linear-gradient(145deg,#1b2135,#111624);
-    box-shadow:0 12px 30px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.04);
-    text-decoration:none !important; transition:transform .12s ease,border-color .12s ease;
+  #main-content {
+    position:relative; min-width:0; min-height:0; width:100%; height:100%;
+    overflow:hidden; box-sizing:border-box;
   }
-  #payloadMenu .payloadTile:focus { outline:0; transform:translateY(-4px);
-    border-color:#fff; box-shadow:0 0 0 3px rgba(255,255,255,.16),0 18px 38px rgba(0,0,0,.38); }
-  .payloadCopy { display:inline-block; vertical-align:middle; width:100%;
-    min-width:0; padding-right:55px; box-sizing:border-box; }
-  .payloadName { display:block; color:#fff; font-size:18px; font-weight:800;
-    line-height:1.15; }
-  .payloadDesc { display:block; margin-top:5px; color:#8994ad; font-size:13px;
-    line-height:1.25; }
-  .payloadStatus { position:absolute; right:15px; top:14px; color:#6edca9;
-    font-size:10px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
-  .payloadTile[data-state="sending"] .payloadStatus { color:#ffd16d; }
-  .payloadTile[data-state="sent"] .payloadStatus { color:#6edca9; }
-  .payloadTile[data-state="failed"] .payloadStatus { color:#ff6f7f; }
-  #payloadMenu .payloadTile.busy { opacity:.42; }
-
-  #loaderPrompt { display:none; width:620px; max-width:90vw; margin:auto;
-    padding:34px; text-align:center; border:1px solid rgba(255,255,255,.13);
-    border-radius:24px; background:linear-gradient(145deg,#1d2238,#101521);
-    box-shadow:0 24px 70px rgba(0,0,0,.4); }
-  #loaderPrompt.on { display:block; }
-  .promptBadge { display:block; width:68px; height:68px; line-height:68px;
-    margin:0 auto 18px; border-radius:20px;
-    color:#ffd270; background:#3b2b17; border:1px solid #725326;
-    font:900 16px/1 "Segoe UI",Arial,sans-serif; }
-  #loaderPrompt h2 { margin:0; color:#fff; font-size:34px; }
-  #loaderPrompt p { margin:10px auto 24px; max-width:470px; color:#aab4cc;
-    font-size:16px; }
-  .promptActions { display:block; text-align:center; }
-  .promptButton { display:inline-block; min-width:190px; padding:15px 20px;
-    margin:5px;
-    border:1px solid rgba(255,255,255,.18); border-radius:14px; color:#fff;
-    background:linear-gradient(145deg,#6748e8,#3d28a1); text-decoration:none;
-    font-size:16px; font-weight:800; }
-  .promptButton.secondary { min-width:120px; background:#20273a; color:#c5ccdd; }
-  .promptButton:focus { outline:3px solid #fff; outline-offset:2px; }
-
-  @media (max-width:900px) {
-    #payloadMenu .payloadTile { width:calc(50% - 12px); }
+  #main-content > .app-view {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    box-sizing:border-box; opacity:0; pointer-events:none;
+    transition:opacity .3s ease-in-out;
+  }
+  #main-content > .app-view.selected {
+    opacity:1 !important; pointer-events:auto !important;
+  }
+  #console-view {
+    display:flex; flex-direction:column; align-items:stretch; overflow:hidden;
+  }
+  #payloads-view {
+    display:grid !important; grid-template-rows:auto 1fr;
+    overflow:hidden; background:#0c0c0f; color:#fff;
+  }
+  .payloadHeader {
+    position:relative; box-sizing:border-box; min-height:112px;
+    padding:.5rem; text-align:center;
+  }
+  .payloadHeader h2 {
+    margin:.35rem 0; color:#fff; font-size:2rem; line-height:1.2;
+  }
+  .payloadEyebrow { color:#ccc; font-size:1rem; }
+  .payloadHeader p { margin:0; color:#ccc; font-size:.9rem; }
+  .homeLink {
+    position:absolute; top:.75rem; right:1rem; padding:.5rem 1rem;
+    border-radius:1rem; color:#fff; background:#202125;
+    text-decoration:none; font-size:1rem;
+  }
+  .homeLink:hover, .homeLink:focus {
+    outline:0; background:#a2a2a6; color:#202020;
   }
 
-  /* UMTX2-style sender UI: deliberately mirrors its PS5-proven controls. */
-  body.loader-ready { display:grid; grid-template-rows:1fr; width:100%; height:100vh;
-    padding:0; margin:0; overflow:hidden; background:#0c0c0f; color:#fff;
-    font-family:Arial,sans-serif; font-size:17px; }
-  body.loader-ready #payloadMenu.on { display:grid; grid-template-rows:auto 1fr;
-    width:100%; max-width:none; height:100vh; margin:0; box-sizing:border-box; }
-  body.loader-ready .payloadHeader { position:relative; margin:0; padding:.5rem;
-    text-align:center; border:0; border-radius:0; background:none; box-shadow:none; }
-  body.loader-ready .payloadEyebrow { color:#ccc; font-size:1rem; font-weight:normal;
-    letter-spacing:0; text-transform:none; }
-  body.loader-ready .payloadHeader h2 { margin:.35rem 0; color:#fff; font-size:2rem;
-    line-height:1.2; letter-spacing:0; }
-  body.loader-ready .payloadHeader p { margin:0; color:#ccc; font-size:.9rem; }
-  body.loader-ready .homeLink { top:.75rem; right:1rem; padding:.5rem 1rem;
-    border:0; border-radius:1rem; color:#fff; background:#202125; font-size:1rem; }
-  body.loader-ready .homeLink:hover, body.loader-ready .homeLink:focus {
-    outline:0; background:#a2a2a6; color:#202020; }
-  body.loader-ready #payloadMenu .payloadGrid { display:block !important;
-    width:100%; padding:1rem 1.25rem 2rem; overflow-y:scroll; overflow-x:hidden;
-    box-sizing:border-box; font-size:0; text-align:center; }
-  body.loader-ready #payloadMenu .payloadTile { position:relative; display:inline-block;
-    vertical-align:top; width:47%; min-height:0; margin:.5rem 1%;
-    padding:1rem 2rem; border:0;
-    border-radius:1.25rem; color:#fff; background:#202125; box-shadow:none;
-    line-height:normal; text-align:center; box-sizing:border-box;
-    transition:background-color .25s ease; }
-  body.loader-ready #payloadMenu .payloadTile:hover,
-  body.loader-ready #payloadMenu .payloadTile:focus { outline:0; transform:none;
-    border:0; background:#a2a2a6; color:#202020; box-shadow:none; }
-  body.loader-ready .payloadCopy { display:block; width:100%; padding:0; }
-  body.loader-ready .payloadName { display:block; line-height:2.5rem; color:inherit;
-    font-weight:bolder; font-size:1.3rem; padding:0; margin:0; }
-  body.loader-ready .payloadDesc { display:block; color:#ccc; margin:0; padding:0;
-    text-overflow:ellipsis; overflow:hidden; white-space:nowrap; line-height:2rem;
-    font-size:1rem; max-width:100%; }
-  body.loader-ready .payloadTile:hover .payloadDesc,
-  body.loader-ready .payloadTile:focus .payloadDesc { color:#444; }
-  body.loader-ready .payloadStatus { position:static; display:block; color:#999;
-    margin:0; padding:0; text-overflow:ellipsis; overflow:hidden; line-height:1.5rem;
-    font-size:.9rem; font-weight:normal; letter-spacing:0; text-transform:none; }
-  body.loader-ready .payloadTile:hover .payloadStatus,
-  body.loader-ready .payloadTile:focus .payloadStatus { color:#555; }
-  body.loader-ready #payloadMenu .payloadTile.busy { opacity:.45; }
-
-  body.prompt-ready { display:flex; align-items:center; justify-content:center;
-    width:100%; height:100vh; padding:0; margin:0; overflow:hidden;
-    background:#0c0c0f; color:#fff; font-family:Arial,sans-serif; }
-  body.prompt-ready #loaderPrompt.on { display:block; width:70%; max-width:760px;
-    margin:0; padding:2rem; border:0; border-radius:0; background:none;
-    box-shadow:none; text-align:center; }
-  body.prompt-ready .promptBadge { display:none; }
-  body.prompt-ready #loaderPrompt h2 { font-size:2rem; }
-  body.prompt-ready #loaderPrompt p { color:#ccc; }
-  body.prompt-ready .promptButton { display:inline-block; width:50%; min-width:5rem;
-    margin:.2rem; padding:1rem 2rem; border:0; border-radius:1.25rem;
-    background:#202125; color:#fff; line-height:2.5rem; font-size:1.3rem;
-    box-sizing:border-box; }
-  body.prompt-ready .promptButton.secondary { padding:.5rem 2rem; font-size:1rem; }
-  body.prompt-ready .promptButton:hover, body.prompt-ready .promptButton:focus {
-    outline:0; background:#a2a2a6; color:#202020; }
+  #payloads-view .payloadGrid {
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-auto-rows:auto;
+    column-gap:2.5rem;
+    row-gap:1rem;
+    width:100%;
+    height:auto; min-height:0;
+    padding:0 2rem 2rem 2rem;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    box-sizing:border-box;
+    align-content:start;
+  }
+  #payloads-view .btn {
+    display:inline-block;
+    box-sizing:border-box;
+    width:100%;
+    min-width:5rem;
+    margin:.2rem;
+    padding:1rem 2rem;
+    border:0;
+    border-radius:1.25rem;
+    background:#202125;
+    color:#fff;
+    cursor:pointer;
+    line-height:2.5rem;
+    text-align:center;
+    text-decoration:none;
+    font-size:1.3rem;
+  }
+  #payloads-view .btn:hover, #payloads-view .btn:focus {
+    outline:0;
+    background:#a2a2a6;
+    color:#202020;
+  }
+  .payload-btn-title {
+    display:block !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    margin:0;
+    padding:0;
+    color:#fff !important;
+    -webkit-text-fill-color:#fff;
+    line-height:2.5rem;
+    font-size:1.3rem;
+    font-weight:bolder;
+  }
+  .payload-btn-description {
+    display:block !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    max-width:100%;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    color:#ccc;
+    -webkit-text-fill-color:#ccc;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    line-height:2rem;
+    font-size:1rem;
+  }
+  .btn:hover .payload-btn-description,
+  .btn:focus .payload-btn-description {
+    color:#444 !important; -webkit-text-fill-color:#444;
+  }
+  .payload-btn-info {
+    display:block !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    color:#999;
+    -webkit-text-fill-color:#999;
+    text-overflow:ellipsis;
+    line-height:1.5rem;
+    font-size:.9rem;
+    font-weight:normal;
+  }
+  .btn:hover .payload-btn-info,
+  .btn:focus .payload-btn-info {
+    color:#555 !important; -webkit-text-fill-color:#555;
+  }
+  #payloads-view .btn:hover .payload-btn-title,
+  #payloads-view .btn:focus .payload-btn-title {
+    color:#202020 !important; -webkit-text-fill-color:#202020;
+  }
+  #payloads-view .btn.busy { opacity:.45; pointer-events:none; }
 
   #payloadToastContainer { position:fixed; top:20px; right:20px; z-index:9999; }
-  .payloadToast { background:#15161a; color:#fff; padding:20px 25px;
-    border-radius:1rem; margin-top:10px; box-shadow:0 0 10px rgba(0,0,0,.2);
-    width:300px; opacity:1; transition:opacity .4s; pointer-events:none;
-    font:16px/1.35 Arial,sans-serif; }
+  .payloadToast {
+    width:300px; margin-top:10px; padding:20px 25px; border-radius:1rem;
+    background:#15161a; color:#fff; box-shadow:0 0 10px rgba(0,0,0,.2);
+    opacity:1; transition:opacity .4s; pointer-events:none;
+    font:16px/1.35 Arial,sans-serif;
+  }
   .payloadToast.hide { opacity:0; }
 
-  #slopkitHeader, #slopkitFooter { display:none; }
-  body.quiet:not(.loader-ready):not(.prompt-ready) { display:grid;
+  #slopkitHeader, #slopkitFooter { display:block; }
+  body.quiet { display:grid;
     grid-template-rows:auto 1fr auto; width:100%; height:100vh; padding:0; margin:0;
     overflow:hidden; align-items:stretch; justify-content:stretch;
     background:#0c0c0f; color:#fff; font-family:Arial,sans-serif; }
-  body.quiet:not(.loader-ready):not(.prompt-ready) #slopkitHeader {
+  body.quiet.payload-view-active { grid-template-rows:1fr auto; }
+  body.quiet.payload-view-active #slopkitHeader { display:none; }
+  body.quiet #slopkitHeader {
     display:block; padding:.5rem; text-align:center; }
-  body.quiet:not(.loader-ready):not(.prompt-ready) #slopkitHeader h1 {
+  body.quiet #slopkitHeader h1 {
     display:block; margin:.5rem 0; color:#fff; font-size:2rem; font-weight:bold; }
-  body.quiet:not(.loader-ready):not(.prompt-ready) #slopkitHeader p {
+  body.quiet #slopkitHeader p {
     margin:.25rem 0; color:#ccc; font-size:1rem; }
-  body.quiet:not(.loader-ready):not(.prompt-ready) #cat { display:none; }
-  body.quiet:not(.loader-ready):not(.prompt-ready) #scr { display:block;
-    box-sizing:border-box; width:auto; max-width:none; height:auto; min-height:0;
+  body.quiet #cat { display:none; }
+  body.quiet #scr { display:block;
+    box-sizing:border-box; width:auto; max-width:none; height:auto; min-height:0; flex:1;
     margin:8px; padding:8px; overflow-y:auto; overflow-x:hidden;
     border:1px solid #202125; border-radius:5px; background:inherit;
     box-shadow:none; color:#fff; font:16px/1.35 monospace; white-space:pre-wrap; }
-  body.quiet:not(.loader-ready):not(.prompt-ready) #slopkitFooter {
+  body.quiet #slopkitFooter {
     display:block; padding:.5rem; color:#ccc; text-align:center; font-size:.8rem; }
-  body.loader-ready #slopkitHeader, body.loader-ready #slopkitFooter,
-  body.prompt-ready #slopkitHeader, body.prompt-ready #slopkitFooter { display:none; }
 
-
-  #cat { display: none !important; }
-  #statusBadge { box-sizing: border-box; }
   #wrap { display:none !important; }
-
-/* ===== VoX DoN UI SKIN — visual only, jailbreak logic untouched ===== */
-html, body {
-  background: #000 url("../slopkit-bg.jpg?v=2") center center / cover no-repeat fixed !important;
-  color: #39ff14 !important;
-}
-h1 {
-  color: #00e5ff !important;
-  text-shadow: 0 0 14px rgba(0,229,255,.9), 0 0 28px rgba(0,160,255,.5) !important;
-  letter-spacing: .04em !important;
-}
-.sub { color: #c5d0e6 !important; }
-#stage, #cfg, #vitals, #verdict, #summary, #tally, #scr, #early {
-  background: rgba(0,10,20,.78) !important;
-  border: 1px solid rgba(0,229,255,.45) !important;
-  border-left: 6px solid #00e5ff !important;
-  color: #39ff14 !important;
-  border-radius: 10px !important;
-  box-shadow: 0 0 18px rgba(0,229,255,.18) !important;
-}
-#stage.ok {
-  border-left-color: #39ff14 !important;
-  background: rgba(10,40,20,.8) !important;
-  color: #b8f0c6 !important;
-}
-#scr, #early, #console, #console *, #rows, #rows td, #wrap, #wrap td, #slopkitFooter {
-  color: #39ff14 !important;
-  text-shadow: 0 0 5px rgba(57,255,20,.35) !important;
-}
-#wrap {
-  background: rgba(0,8,16,.82) !important;
-  border: 2px solid rgba(0,229,255,.55) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 0 24px rgba(0,229,255,.22) !important;
-}
-#payloadMenu .payloadHeader,
-#payloadMenu .payloadTile {
-  background: linear-gradient(145deg, rgba(12,20,40,.94), rgba(6,10,22,.96)) !important;
-  border-color: rgba(0,229,255,.35) !important;
-}
-.payloadName { color: #7df9ff !important; }
-.payloadDesc { color: #9aa3b5 !important; }
-.payloadStatus { color: #39ff14 !important; }
-#loaderPrompt {
-  background: rgba(0,10,20,.9) !important;
-  border: 1px solid rgba(0,229,255,.5) !important;
-  border-radius: 14px !important;
-}
-.promptButton {
-  background: linear-gradient(180deg,#5eb0ff,#1a4fd4) !important;
-  border: 1px solid rgba(160,210,255,.65) !important;
-  color: #fff !important;
-  border-radius: 999px !important;
-}
-/* ===== end VoX DoN UI SKIN ===== */
-
 </style>
 </head>
 <body class="quiet">
@@ -386,62 +328,44 @@ h1 {
   <h1>PS5 SlopKit Jailbreak (9.00-12.00)</h1>
   <p>Current firmware: <b id="currentFirmware">detecting...</b></p>
 </div>
-<div id="failureMessage">UNLUCKY &mdash; YOU NEED TO REBOOT</div>
-<div id="cat" style="display:none" aria-hidden="true">
-  <!-- broken image placeholders removed: no 404 cat/gif on failure -->
-  <img id="catImage" src="" alt="" style="display:none">
-</div>
-<div id="statusBadge" style="display:none;margin:0 auto 12px;padding:14px 18px;max-width:520px;text-align:center;border-radius:12px;font:700 20px/1.3 Arial,sans-serif;"></div>
-<h1>poops</h1>
-<div id="reboot"></div>
-<div id="verdict"></div>
-<div id="danger"></div>
-<div id="stage">idle</div>
-<div id="vitals"></div>
-<div id="cfg"></div>
-<pre id="early"></pre>
-<pre id="scr"></pre>
-<div id="payloadMenu">
-  <div class="payloadHeader">
-    <h2>PS5 SlopKit Payloads (9.00-12.00)</h2>
-    <div class="payloadEyebrow" id="payloadNetworkStatus">Listening on console port 9021</div>
-    <p id="payloadProgress">Select a payload to send it to the ELF loader.</p>
-    <a class="homeLink" href="../index.html">Home</a>
+<div id="main-content">
+  <div id="console-view" class="app-view selected">
+    <div id="failureMessage">UNLUCKY &mdash; YOU NEED TO REBOOT</div>
+    <div id="cat">
+      <img id="catImage" src="mmhmm-cats-ps5.gif" alt="">
+    </div>
+    <h1>poops</h1>
+    <div id="reboot"></div>
+    <div id="verdict"></div>
+    <div id="danger"></div>
+    <div id="stage">idle</div>
+    <div id="vitals"></div>
+    <div id="cfg"></div>
+    <pre id="early"></pre>
+    <pre id="scr"></pre>
+    <div id="nav"></div>
+    <div id="arm" hidden>Open this page with <b>?go=1</b> to arm it. Nothing runs
+    otherwise.</div>
+    <div id="wrap">
+      <table>
+        <thead><tr><th>#</th><th>test</th><th>st</th><th>result</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div id="tally"></div>
+    <div id="summary"></div>
   </div>
-  <div class="payloadGrid">
-    <a class="payloadTile" href="#" data-name="pldmgr_v0.5.2.elf"><span class="payloadCopy"><strong class="payloadName">Payload Manager</strong><small class="payloadDesc">Full payload manager UI on the console.</small></span><span class="payloadStatus" data-ready="pldmgr_v0.5.2.elf - itsPLK">pldmgr_v0.5.2.elf &centerdot; itsPLK</span></a>
-    <a class="payloadTile" href="#" data-name="ftpsrv-ps5.elf"><span class="payloadCopy"><strong class="payloadName">ftpsrv</strong><small class="payloadDesc">FTP server. Runs on port 2121.</small></span><span class="payloadStatus" data-ready="ftpsrv-ps5.elf - john-tornblom">ftpsrv-ps5.elf &centerdot; john-tornblom</span></a>
-    <a class="payloadTile" href="#" data-name="gdbsrv-ps5.elf"><span class="payloadCopy"><strong class="payloadName">gdbsrv</strong><small class="payloadDesc">GDB server. Runs on port 2159.</small></span><span class="payloadStatus" data-ready="gdbsrv-ps5.elf - john-tornblom">gdbsrv-ps5.elf &centerdot; john-tornblom</span></a>
-    <a class="payloadTile" href="#" data-name="klogsrv-ps5.elf"><span class="payloadCopy"><strong class="payloadName">klogsrv</strong><small class="payloadDesc">Kernel log server. Runs on port 3232.</small></span><span class="payloadStatus" data-ready="klogsrv-ps5.elf - john-tornblom">klogsrv-ps5.elf &centerdot; john-tornblom</span></a>
-    <a class="payloadTile" href="#" data-name="shsrv-ps5.elf"><span class="payloadCopy"><strong class="payloadName">shsrv</strong><small class="payloadDesc">Telnet shell server. Runs on port 2323.</small></span><span class="payloadStatus" data-ready="shsrv-ps5.elf - john-tornblom">shsrv-ps5.elf &centerdot; john-tornblom</span></a>
-    <a class="payloadTile" href="#" data-name="websrv-ps5.elf"><span class="payloadCopy"><strong class="payloadName">websrv</strong><small class="payloadDesc">Homebrew web server. Runs on port 8080.</small></span><span class="payloadStatus" data-ready="websrv-ps5.elf - john-tornblom">websrv-ps5.elf &centerdot; john-tornblom</span></a>
-    <a class="payloadTile" href="#" data-name="kstuff.elf"><span class="payloadCopy"><strong class="payloadName">ps5-kstuff</strong><small class="payloadDesc">Kernel support payload and FPKG enabler.</small></span><span class="payloadStatus" data-ready="kstuff.elf - EchoStretch">kstuff.elf &centerdot; EchoStretch</span></a>
-    <a class="payloadTile" href="#" data-name="PLK.elf"><span class="payloadCopy"><strong class="payloadName">PLK Manager</strong><small class="payloadDesc">Payload management tools.</small></span><span class="payloadStatus" data-ready="PLK.elf - PLK">PLK.elf &centerdot; PLK</span></a>
-    <a class="payloadTile" href="#" data-name="shadowmountplus.elf"><span class="payloadCopy"><strong class="payloadName">ShadowMountPlus</strong><small class="payloadDesc">Mount and manage game images.</small></span><span class="payloadStatus" data-ready="shadowmountplus.elf - Drakmor">shadowmountplus.elf &centerdot; Drakmor</span></a>
-    <a class="payloadTile" href="#" data-name="nanodns.elf"><span class="payloadCopy"><strong class="payloadName">nanoDNS</strong><small class="payloadDesc">Block Sony servers &amp; use internet safely.</small></span><span class="payloadStatus" data-ready="nanodns.elf - Drakmor">nanodns.elf &centerdot; Drakmor</span></a>
+  <div id="payloads-view" class="app-view">
+    <div class="payloadHeader">
+      <h2>PS5 SlopKit Payloads (9.00-12.00)</h2>
+      <div class="payloadEyebrow" id="payloadNetworkStatus">Listening on console port 9021</div>
+      <p id="payloadProgress">Select a payload to send it to the ELF loader.</p>
+      <a class="homeLink" href="../index.html">Home</a>
+    </div>
+    <div class="payloadGrid"></div>
   </div>
 </div>
 <div id="payloadToastContainer"></div>
-<div id="loaderPrompt">
-  <div class="promptBadge">9021</div>
-  <h2>ELF loader is not running</h2>
-  <p>Port 9021 is not open. Would you like to run the jailbreak now and start the ELF loader?</p>
-  <div class="promptActions">
-    <a id="promptJailbreak" class="promptButton" href="#">Jailbreak</a>
-    <a class="promptButton secondary" href="../index.html">Cancel</a>
-  </div>
-</div>
-<div id="nav"></div>
-<div id="arm" hidden>Open this page with <b>?go=1</b> to arm it. Nothing runs
-otherwise.</div>
-<div id="wrap">
-<table>
-  <thead><tr><th>#</th><th>test</th><th>st</th><th>result</th></tr></thead>
-  <tbody id="rows"></tbody>
-</table>
-</div>
-<div id="tally"></div>
-<div id="summary"></div>
 <div id="slopkitFooter">slopkit final</div>
 
 <div id="console" hidden></div>
@@ -528,7 +452,6 @@ const ONLY = (Q.get("only") || "").split(",").map(s => s.trim()).filter(Boolean)
 const FILTERED_RUN = ONLY.length > 0 || FROM !== "";
 const MAX_ATTEMPTS = parseInt(Q.get("max") || "0", 10) || 0;
 const CORE_OVERRIDE = Q.has("core") ? parseInt(Q.get("core"), 10) : -1;
-const REUSE_ELFLDR = Q.get("reuse") === "1";
 
 const PROGRESS_KEY = "slopkit-poops:next";
 const RUNLOG_KEY = "slopkit-poops:last";
@@ -619,15 +542,6 @@ const PRODUCTION_QUERY = Object.freeze({
     attempts: "8", only: STAGE5_ONLY, log: "debug", payload: "1",
     v: ROUTE_VERSION
 });
-const PRODUCTION_HREF = "poops.html?" + Object.keys(PRODUCTION_QUERY)
-    .map(key => encodeURIComponent(key) + "="
-        + encodeURIComponent(PRODUCTION_QUERY[key]))
-    .join("&");
-const REUSE_QUERY = Object.freeze({
-    go: "1", auto: "1", production: "1", trigger: "netcontrol",
-    attempts: "8", only: STAGE5_ONLY, log: "debug", payload: "1",
-    reuse: "1", v: ROUTE_VERSION
-});
 const STAGE5_INTENT = Q.has("stage5") || Q.has("payload")
     || Q.getAll("proof").some(value => value.indexOf("stage5") === 0)
     || Q.getAll("only").some(value => value.split(",")
@@ -648,7 +562,7 @@ function exactQuery(expected) {
 const STAGE5_REQUEST_ERROR = (() => {
     if (!STAGE5_INTENT) return "";
     if (!exactQuery(STAGE5_DRY_QUERY) && !exactQuery(STAGE5_LIVE_QUERY)
-        && !exactQuery(PRODUCTION_QUERY) && !exactQuery(REUSE_QUERY))
+        && !exactQuery(PRODUCTION_QUERY))
         return "noncanonical-stage5-request";
     return STAGE5_FIRMWARES.indexOf(window.fw_str) >= 0
         ? "" : "unsupported-stage5-firmware";
@@ -656,10 +570,10 @@ const STAGE5_REQUEST_ERROR = (() => {
 
 const PRODUCTION_REQUEST_ERROR = (() => {
     if (!Q.has("production") && !Q.has("auto") && !Q.has("next")) return "";
-    return exactQuery(PRODUCTION_QUERY) || exactQuery(REUSE_QUERY)
+    return exactQuery(PRODUCTION_QUERY)
         ? "" : "noncanonical-production-request";
 })();
-const PRODUCTION_RUN = exactQuery(PRODUCTION_QUERY) || exactQuery(REUSE_QUERY);
+const PRODUCTION_RUN = exactQuery(PRODUCTION_QUERY);
 
 function cleanNegativeCheckpoint(last) {
     return last && last.rev === REV && last.checkpoint === true
@@ -791,6 +705,7 @@ const CONCISE_SCREEN_SHOW = {
     "STAGE5-DONE": 1,
     "POOPS-COMPLETE": 1,
     "POOPS-FAILED": 1,
+    "ELFLDR-MENU-VISIBLE": 1,
     "ELF-SENT": 1,
     "ELF-SEND-FAILED": 1,
     "ELF-SENDER-BLOCKED": 1
@@ -898,17 +813,14 @@ function sendRemoteEvents(unloading) {
 
 function screenMark(tag, extra) {
     const s0 = extra == null ? "" : String(extra);
-    if (tag === "STAGE5-DONE" || tag === "ELFLDR-REUSED"
-        || (tag === "POOPS-COMPLETE" && /(?:^|-)fail=0(?:-|$)/.test(s0))) {
-        // Any successful elfldr / stage5 → open sender UI + inject Payload Manager
+    if (tag === "STAGE5-DONE" && /(?:^|-)joinRet=0(?:-|$)/.test(s0) &&
+        /(?:^|-)shellcodeRet=0x0+(?:-|$)/.test(s0)) {
         elfldrSpawned = true;
         clearFailureBanners();
         setCatResult(true);
-        showVerdict(false, "ELF LOADER READY ON 9021");
-        stage("JAILBREAK OK — Payload Manager", "ok");
-        try { openPayloadManagerAndInject(); } catch (e) {
-            try { showPayloadMenu(true); } catch (e2) { }
-        }
+        showVerdict(false, "ELF LOADER READY");
+        stage("ELF LOADER READY", "ok");
+        showPayloadMenu();
     }
     catState(tag, s0);
     captureRemoteEvent(tag, s0);
@@ -1001,7 +913,7 @@ const rowsEl = document.getElementById("rows");
 const tallyEl = document.getElementById("tally");
 const summaryEl = document.getElementById("summary");
 const navEl = document.getElementById("nav");
-const payloadMenuEl = document.getElementById("payloadMenu");
+const payloadMenuEl = document.getElementById("payloads-view");
 const rowByKey = new Map();
 let payloadSendBusy = false;
 const PAYLOAD_PORT = 9021;
@@ -1014,158 +926,94 @@ let payloadSendTimeoutStore = null;
 let payloadSenderBlocked = "";
 let consoleNetworkInfo = { ip: "", name: "" };
 
+const PAYLOADS = Object.freeze([
+    { title: "Payload Manager", description: "Full payload manager UI on the console.",
+        name: "pldmgr_v0.5.2.elf", info: "pldmgr_v0.5.2.elf - itsPLK" },
+    { title: "ftpsrv", description: "FTP server. Runs on port 2121.",
+        name: "ftpsrv-ps5.elf", info: "ftpsrv-ps5.elf - john-tornblom" },
+    { title: "gdbsrv", description: "GDB server. Runs on port 2159.",
+        name: "gdbsrv-ps5.elf", info: "gdbsrv-ps5.elf - john-tornblom" },
+    { title: "klogsrv", description: "Kernel log server. Runs on port 3232.",
+        name: "klogsrv-ps5.elf", info: "klogsrv-ps5.elf - john-tornblom" },
+    { title: "shsrv", description: "Telnet shell server. Runs on port 2323.",
+        name: "shsrv-ps5.elf", info: "shsrv-ps5.elf - john-tornblom" },
+    { title: "websrv", description: "Homebrew web server. Runs on port 8080.",
+        name: "websrv-ps5.elf", info: "websrv-ps5.elf - john-tornblom" },
+    { title: "PLK Manager", description: "Payload management tools.",
+        name: "PLK.elf", info: "PLK.elf - PLK" },
+    { title: "ShadowMountPlus", description: "Mount and manage game images.",
+        name: "shadowmountplus.elf", info: "shadowmountplus.elf - Drakmor" }
+]);
 
-/** Open payload sender UI and auto-inject Payload Manager ELF to port 9021. */
-let payloadManagerInjected = false;
-function findPayloadTile(name) {
-    if (!payloadMenuEl) return null;
-    const tiles = payloadMenuEl.getElementsByClassName("payloadTile");
-    for (let i = 0; i < tiles.length; ++i) {
-        if (tiles[i].getAttribute("data-name") === name) return tiles[i];
+function populatePayloadButtons() {
+    const grid = payloadMenuEl.getElementsByClassName("payloadGrid")[0];
+    if (!grid || grid.getElementsByClassName("payloadTile").length) return;
+
+    for (let i = 0; i < PAYLOADS.length; ++i) {
+        const payload = PAYLOADS[i];
+        const button = document.createElement("a");
+        button.classList.add("payloadTile");
+        button.classList.add("btn");
+        button.tabIndex = 0;
+        button.setAttribute("data-name", payload.name);
+
+        const title = document.createElement("p");
+        title.classList.add("payloadName");
+        title.classList.add("payload-btn-title");
+        title.textContent = payload.title;
+
+        const description = document.createElement("p");
+        description.classList.add("payload-btn-description");
+        description.textContent = payload.description;
+
+        const info = document.createElement("p");
+        info.classList.add("payloadStatus");
+        info.classList.add("payload-btn-info");
+        info.setAttribute("data-ready", payload.info);
+        info.textContent = payload.info.replace(" - ", " · ");
+
+        button.appendChild(title);
+        button.appendChild(description);
+        button.appendChild(info);
+        button.addEventListener("click", function (event) {
+            if (event && event.preventDefault) event.preventDefault();
+            sendPayloadInPlace(payload.name, button);
+        });
+        grid.appendChild(button);
     }
-    return null;
 }
-/** أعلى إصدارٍ من بيلود المانجر среди بلاطات هذه الصفحة.
- *  The ELF loader accepts exactly ONE payload and then exits, so this is the
- *  only payload the page may spend by itself; every other tile stays manual. */
-function latestPayloadManagerTile() {
-    const tiles = payloadMenuEl
-        ? payloadMenuEl.getElementsByClassName("payloadTile") : [];
-    let best = null, bestVersion = -1;
-    for (let i = 0; i < tiles.length; ++i) {
-        const name = tiles[i].getAttribute("data-name") || "";
-        const m = /^pldmgr[_-]?v?(\d+(?:\.\d+)*)\.elf$/i.exec(name);
-        if (!m) continue;
-        const parts = m[1].split(".");
-        let version = 0;
-        for (let p = 0; p < parts.length; ++p)
-            version = version * 1000 + (parseInt(parts[p], 10) || 0);
-        if (version > bestVersion) { bestVersion = version; best = tiles[i]; }
-    }
-    return best;
+populatePayloadButtons();
+
+function switchAppView(viewId) {
+    const main = document.getElementById("main-content");
+    const target = document.getElementById(viewId);
+    if (!main || !target) return;
+    if (viewId === "payloads-view")
+        document.body.classList.add("payload-view-active");
+    else
+        document.body.classList.remove("payload-view-active");
+    const views = main.getElementsByClassName("app-view");
+    for (let i = 0; i < views.length; ++i)
+        views[i].classList.remove("selected");
+    target.classList.add("selected");
+    void target.offsetHeight;
 }
 
-/** Port 9021 is the only honest proof the loader is alive: elfldr binds it a
- *  while after stage5 reports success. Poll it before spending the one payload
- *  it will accept, instead of guessing with a fixed sleep.
- *  Returns {owned, waited}: waited counts the sleeps it really performed, and
- *  the verdict stays separate from it, because 0 ms is a legal answer and must
- *  never be read as "the port is free". */
-async function waitForElfldrPort(attempts, delayMs) {
-    let waited = 0;
-    for (let i = 0; i < attempts; ++i) {
-        if (i) {
-            await new Promise(function (r) { setTimeout(r, delayMs); });
-            waited += delayMs;
-        }
-        let owned = false;
-        try { owned = await probeExistingElfLoader(); }
-        catch (e) { return { owned: false, waited: waited }; }
-        if (owned) return { owned: true, waited: waited };
-    }
-    return { owned: false, waited: waited };
-}
-
-async function openPayloadManagerAndInject() {
-    elfldrSpawned = true;
-    try {
-        document.body.classList.add("loader-ready");
-        showPayloadMenu(true);
-        if (payloadMenuEl) {
-            payloadMenuEl.className = "on";
-            payloadMenuEl.style.display = "block";
-        }
-    } catch (e) { }
-
-    if (payloadManagerInjected) return;
-    payloadManagerInjected = true;
-
-    const tile = latestPayloadManagerTile();
-    if (!tile) {
-        payloadManagerInjected = false;
-        stage("No Payload Manager tile on this page", "bad");
-        payloadMenuStatus("No Payload Manager tile on this page.");
-        flushMark("PLDMGR-AUTO-NOTILE", "name=-");
-        return;
-    }
-    const name = tile.getAttribute("data-name");
-
-    /* 80 x 250 ms = 20 s. elfldr binds 9021 only after the stage5 thread has
-     * actually been scheduled and ran, and on a cold PS5 that can take far
-     * longer than the 5.75 s the first attempt used to allow; giving up that
-     * early is what made the Payload Manager "not get invoked". */
-    const loader = await waitForElfldrPort(80, 250);
-    if (!loader.owned) {
-        payloadManagerInjected = false;
-        stage("ELF loader did not open port " + PAYLOAD_PORT, "bad");
-        payloadMenuStatus("ELF loader did not open port " + PAYLOAD_PORT
-            + " — the jailbreak has to succeed before the Payload Manager.");
-        flushMark("PLDMGR-LOADER-NOT-READY", "port=9021-free-after="
-            + loader.waited + "ms-name=" + name);
-        return;
-    }
-    flushMark("PLDMGR-LOADER-READY", "after=" + loader.waited + "ms-name=" + name);
-
-    /* A manual tap can already own the loader, so the send may be skipped
-     * (null) instead of failing; the busy case is reported on its own. */
-    let sent = false, busy = false;
-    for (let attempt = 0; attempt < 3 && !sent; ++attempt) {
-        if (attempt) {
-            /* 9021 bindable again means the loader took the bytes and exited;
-             * sending a second time would only fail. */
-            if (!(await waitForElfldrPort(1, 0)).owned) break;
-            await new Promise(function (r) { setTimeout(r, 800); });
-        }
-        stage("Sending Payload Manager: " + name, "ok");
-        payloadMenuStatus("Sending Payload Manager: " + name + " ...");
-        flushMark("PLDMGR-AUTO-SEND", "name=" + name + "-attempt=" + attempt);
-        const outcome = await sendPayloadInPlace(name, tile);
-        if (outcome === true) sent = true;
-        else if (outcome === null) busy = true;
-    }
-    if (busy && !sent) {
-        payloadManagerInjected = false;
-        stage("Another payload is already using the loader", "bad");
-        payloadMenuStatus("Another payload is already using the loader — the "
-            + name + " was not sent. Tap it above to send it again.");
-        flushMark("PLDMGR-AUTO-BUSY", "name=" + name);
-        return;
-    }
-    if (!sent) {
-        payloadManagerInjected = false;
-        stage("Payload Manager was not accepted by the loader: " + name, "bad");
-        payloadMenuStatus("Payload Manager was not accepted by the loader: "
-            + name + " — tap a payload above to send it again.");
-        flushMark("PLDMGR-AUTO-FAIL", "name=" + name);
-        return;
-    }
-    stage("Payload Manager sent: " + name, "ok");
-    payloadMenuStatus("Payload Manager sent: " + name);
-    flushMark("PLDMGR-AUTO-SENT", "name=" + name);
+function setPayloadTileBusy(tile, busy) {
+    if (busy) tile.classList.add("busy");
+    else tile.classList.remove("busy");
 }
 
 function showPayloadMenu(readyState) {
     const ready = readyState !== false;
-    document.body.classList.remove("prompt-ready");
-    if (ready) document.body.classList.remove("menu-loading");
-    document.body.classList.add("loader-ready");
-    const prompt = document.getElementById("loaderPrompt");
-    prompt.className = "";
-    prompt.style.display = "none";
+    populatePayloadButtons();
+
     navEl.textContent = "";
     navEl.style.display = "none";
-    payloadMenuEl.className = "on";
-    document.body.style.display = "block";
-    document.body.style.width = "100%";
-    document.body.style.height = "100vh";
-    document.body.style.padding = "0";
-    document.body.style.margin = "0";
-    document.body.style.overflow = "hidden";
-    payloadMenuEl.style.display = "block";
-    payloadMenuEl.style.width = "100%";
-    payloadMenuEl.style.maxWidth = "none";
-    payloadMenuEl.style.height = "100vh";
-    payloadMenuEl.style.margin = "0";
+
+    payloadMenuEl.classList.add("on");
+    switchAppView("payloads-view");
+
     const networkStatus = document.getElementById("payloadNetworkStatus");
     if (networkStatus) {
         networkStatus.innerHTML = consoleNetworkInfo.ip
@@ -1173,48 +1021,41 @@ function showPayloadMenu(readyState) {
                 + (consoleNetworkInfo.name ? " (" + consoleNetworkInfo.name + ")" : "")
             : "Listening on console port 9021";
     }
+
     const grid = payloadMenuEl.getElementsByClassName("payloadGrid")[0];
-    if (grid) {
-        grid.style.display = "block";
-        grid.style.width = "100%";
-        grid.style.height = "calc(100vh - 120px)";
-        grid.style.padding = "1rem 1.25rem 2rem";
-        grid.style.overflowY = "auto";
-        grid.style.textAlign = "center";
-        grid.style.boxSizing = "border-box";
-        grid.style.fontSize = "0";
-    }
+    if (grid) grid.removeAttribute("style");
+
     const tiles = payloadMenuEl.getElementsByClassName("payloadTile");
     for (let i = 0; i < tiles.length; ++i) {
-        tiles[i].className = ready ? "payloadTile" : "payloadTile busy";
+        setPayloadTileBusy(tiles[i], !ready);
         tiles[i].style.pointerEvents = ready ? "auto" : "none";
         tiles[i].tabIndex = ready ? 0 : -1;
-        tiles[i].style.display = "inline-block";
-        tiles[i].style.verticalAlign = "top";
-        tiles[i].style.width = "47%";
-        tiles[i].style.margin = ".5rem 1%";
-        tiles[i].style.boxSizing = "border-box";
     }
+
     const progress = document.getElementById("payloadProgress");
     if (progress && ready)
         progress.textContent = "Select a payload to send it to the ELF loader.";
+
     setTimeout(function () {
         const firstRect = tiles.length ? tiles[0].getBoundingClientRect() : null;
+        const firstStyle = tiles.length ? getComputedStyle(tiles[0]) : null;
+        const firstTitle = tiles.length
+            ? tiles[0].getElementsByClassName("payload-btn-title")[0] : null;
+        const titleStyle = firstTitle ? getComputedStyle(firstTitle) : null;
         flushMark("ELFLDR-MENU-VISIBLE", "tiles=" + tiles.length
             + "-menu=" + getComputedStyle(payloadMenuEl).display
-            + "-firstW=" + (firstRect ? Math.round(firstRect.width) : 0));
+            + "-firstW=" + (firstRect ? Math.round(firstRect.width) : 0)
+            + "-firstH=" + (firstRect ? Math.round(firstRect.height) : 0)
+            + "-firstDisplay=" + (firstStyle ? firstStyle.display : "none")
+            + "-firstColor=" + (firstStyle ? firstStyle.color : "none")
+            + "-titleDisplay=" + (titleStyle ? titleStyle.display : "none")
+            + "-titleColor=" + (titleStyle ? titleStyle.color : "none")
+            + "-titleFill=" + (titleStyle
+                ? (titleStyle.webkitTextFillColor || "unset") : "none")
+            + "-titleText=" + (firstTitle ? clean(firstTitle.textContent) : "none"));
         sendRemoteEvents(false);
     }, 0);
 }
-
-/* The menu's own status line. stage() cannot report a failure once the loader
- * is up (it stops writing "bad" text then), so the outcome of the automatic
- * send is written here where the user is already looking. */
-function payloadMenuStatus(text) {
-    const progress = document.getElementById("payloadProgress");
-    if (progress) progress.textContent = text;
-}
-
 function setPayloadTileState(tile, state) {
     tile.setAttribute("data-state", state);
     const status = tile.getElementsByClassName("payloadStatus")[0];
@@ -1251,42 +1092,12 @@ async function probeExistingElfLoader() {
 
 function openExistingPayloadMenu() {
     elfldrSpawned = true;
-    document.body.classList.add("loader-ready");
     clearFailureBanners();
     setCatResult(true);
     showVerdict(false, "ELF LOADER ALREADY READY ON PORT 9021");
-    stage("ELF LOADER READY -- Payload Manager", "ok");
+    stage("ELF LOADER READY -- opening payload menu", "ok");
+    showPayloadMenu();
     flushMark("ELFLDR-REUSED", "bind-probe-found-127.0.0.1-port=9021-owned");
-    try { openPayloadManagerAndInject(); } catch (e) { showPayloadMenu(true); }
-}
-
-function showLoaderPrompt() {
-    document.body.classList.remove("loader-ready");
-    document.body.classList.remove("menu-loading");
-    document.body.classList.add("prompt-ready");
-    document.body.style.display = "block";
-    document.body.style.width = "100%";
-    document.body.style.height = "100vh";
-    document.body.style.padding = "0";
-    document.body.style.margin = "0";
-    clearFailureBanners();
-    payloadMenuEl.className = "";
-    payloadMenuEl.style.display = "none";
-    const prompt = document.getElementById("loaderPrompt");
-    prompt.className = "on";
-    prompt.style.display = "block";
-    prompt.style.width = "70%";
-    prompt.style.margin = "25vh auto 0";
-    prompt.style.boxSizing = "border-box";
-    const promptButtons = prompt.getElementsByClassName("promptButton");
-    for (let i = 0; i < promptButtons.length; ++i) {
-        promptButtons[i].style.display = "block";
-        promptButtons[i].style.width = "70%";
-        promptButtons[i].style.margin = ".5rem auto";
-    }
-    const button = document.getElementById("promptJailbreak");
-    button.href = PRODUCTION_HREF;
-    try { button.focus(); } catch (e) { }
 }
 
 async function refreshConsoleNetworkInfo() {
@@ -1474,22 +1285,20 @@ async function sendPayloadToElfldr(name) {
 }
 
 async function sendPayloadInPlace(name, tile) {
-    /* null = skipped, another send owns the loader; the automatic Payload
-     * Manager send tells that apart from a real failure. */
-    if (payloadSendBusy) return null;
+    if (payloadSendBusy) return;
     payloadSendBusy = true;
     const titleEl = tile.getElementsByClassName("payloadName")[0];
     const title = titleEl ? titleEl.textContent : name;
     const toast = showPayloadToast(title + ": Fetching...");
     const tiles = payloadMenuEl.getElementsByClassName("payloadTile");
     for (let i = 0; i < tiles.length; ++i)
-        tiles[i].className = "payloadTile busy";
-    tile.className = "payloadTile";
+        setPayloadTileBusy(tiles[i], true);
+    setPayloadTileBusy(tile, false);
     setPayloadTileState(tile, "sending");
     try {
         updatePayloadToast(toast, title + ": Sending to port 9021...");
         const result = await sendPayloadToElfldr(name);
-        tile.className = "payloadTile";
+        setPayloadTileBusy(tile, false);
         setPayloadTileState(tile, "sent");
         updatePayloadToast(toast, title + ": Sent to port 9021");
         dismissPayloadToast(toast, 2000);
@@ -1499,27 +1308,25 @@ async function sendPayloadInPlace(name, tile) {
         if (result.closeWarning)
             flushMark("ELF-SOCKET-CLOSE-WARN", "name=" + clean(result.name)
                 + "-why=" + clean(result.closeWarning.message || result.closeWarning));
-        return true;
     } catch (error) {
-        tile.className = "payloadTile";
+        setPayloadTileBusy(tile, false);
         setPayloadTileState(tile, "failed");
         updatePayloadToast(toast, title + ": Error: "
             + (error && error.message ? error.message : error));
         dismissPayloadToast(toast, 5000);
         flushMark("ELF-SEND-FAILED", "name=" + clean(name) + "-why="
             + clean(error && error.message ? error.message : error));
-        return false;
     } finally {
         if (payloadSenderBlocked) {
             payloadSendBusy = true;
             for (let i = 0; i < tiles.length; ++i)
-                tiles[i].className = "payloadTile busy";
+                setPayloadTileBusy(tiles[i], true);
             setCatResult(false);
             flushMark("ELF-SENDER-BLOCKED", clean(payloadSenderBlocked));
         } else {
             payloadSendBusy = false;
             for (let i = 0; i < tiles.length; ++i)
-                if (tiles[i] !== tile) tiles[i].className = "payloadTile";
+                if (tiles[i] !== tile) setPayloadTileBusy(tiles[i], false);
             try { tile.focus(); } catch (e) { }
         }
     }
@@ -1548,27 +1355,11 @@ function dismissPayloadToast(toast, delay) {
     }, delay);
 }
 
-{
-    const tiles = payloadMenuEl.getElementsByClassName("payloadTile");
-    for (let i = 0; i < tiles.length; ++i) {
-        const tile = tiles[i];
-        tile.onclick = function (e) {
-            if (e && e.preventDefault) e.preventDefault();
-            sendPayloadInPlace(tile.getAttribute("data-name"), tile);
-            return false;
-        };
-    }
-}
-
 function stage(text, cls) {
     if (cls === "bad") setCatResult(false);
     if (elfldrSpawned && cls === "bad") return;
     stageEl.textContent = text;
     stageEl.className = cls || "";
-    if (document.body.classList.contains("menu-loading")) {
-        const progress = document.getElementById("payloadProgress");
-        if (progress) progress.textContent = text;
-    }
 }
 function danger(text) {
     if (elfldrSpawned) return;
@@ -1587,25 +1378,12 @@ function clearFailureBanners() {
 function setCatResult(success) {
     const cat = document.getElementById("cat");
     const failureMessage = document.getElementById("failureMessage");
-    const badge = document.getElementById("statusBadge");
     if (failureMessage) failureMessage.className = success ? "" : "on";
-    // Never load missing cat.jpg / gif (404). Show text status only.
     if (cat) {
         cat.className = success ? "ok" : "bad";
-        cat.style.display = "none";
-        const image = document.getElementById("catImage");
-        if (image) { image.removeAttribute("src"); image.style.display = "none"; }
-    }
-    if (badge) {
         if (success) {
-            badge.style.display = "none";
-            badge.textContent = "";
-        } else {
-            badge.style.display = "block";
-            badge.style.background = "#3a1218";
-            badge.style.border = "2px solid #ff5566";
-            badge.style.color = "#ffe3e6";
-            badge.textContent = "FAILED — Jailbreak did not complete. Please reboot the console and try again.";
+            const image = document.getElementById("catImage");
+            if (image) image.src = "cat.jpg";
         }
     }
 }
@@ -2259,19 +2037,6 @@ async function runLadder() {
         + "-rtmean=" + rtMean + "-filtered=" + (FILTERED_RUN ? 1 : 0));
 
     const payloadSuccess = cfg.payload === "1" && elfldrSpawned;
-    /* FORCE_PAYLOAD_MENU_AFTER_LADDER */
-    if (cfg.payload === "1" && (elfldrSpawned || (engine && engine.S && engine.S.jailbroken))) {
-        try {
-            elfldrSpawned = true;
-            openPayloadManagerAndInject();
-        } catch (e) {
-            try {
-                if (!payloadMenuEl.classList.contains("on")) showPayloadMenu(true);
-                document.body.classList.add("loader-ready");
-            } catch (e2) { }
-        }
-    }
-
     const fullSuccess = payloadSuccess || (failed === 0 && !aborted
         && !FILTERED_RUN && !chainDead && !state.cleanupFailed);
 
@@ -2613,6 +2378,24 @@ function lastRunText() {
 
     screenLine("slopkit -- reading the one-shot safety latch");
 
+    // The whitelist in main.js is 9.00-12.00, the range the offsets/ folder
+    // holds. The rthdr kernel exploit is validated up to 12.00 -- refuse above
+    // it rather than run a plausible-looking ladder against an unvalidated
+    // kernel.
+    const fwNum = (() => {
+        const m = /^(\d+)\.(\d+)$/.exec(window.fw_str || "");
+        return m ? parseInt(m[1], 10) * 100 + parseInt(m[2], 10) : -1;
+    })();
+    if (fwNum > 1200) {
+        renderNav("", false);
+        stage("firmware " + window.fw_str + ": this host supports 9.00-12.00 only.",
+            "bad");
+        summaryEl.textContent = "NOTHING was cleared or executed.";
+        flushMark("POOPS-FW-REFUSED", window.fw_str);
+        sendRemoteEvents(false);
+        return;
+    }
+
     if (PRODUCTION_REQUEST_ERROR) {
         renderNav("", false);
         stage("Production request refused: " + PRODUCTION_REQUEST_ERROR, "bad");
@@ -2636,31 +2419,6 @@ function lastRunText() {
         await clearMain();
         sendRemoteEvents(false);
         return;
-    }
-
-    if (REUSE_ELFLDR) {
-        screenLine("payloads -- checking ELF loader on port 9021");
-        stage("checking for an existing ELF loader on port 9021");
-        try {
-            await bootChain();
-            await refreshConsoleNetworkInfo();
-            if (await probeExistingElfLoader()) {
-                openExistingPayloadMenu();
-                sendRemoteEvents(false);
-                return;
-            }
-            flushMark("ELFLDR-REUSE-MISS", "127.0.0.1-port=9021-closed");
-            stage("no ELF loader found", "bad");
-            showLoaderPrompt();
-            sendRemoteEvents(false);
-            return;
-        } catch (err) {
-            const message = (err && err.message) || String(err);
-            stage("could not check port 9021: " + message, "bad");
-            flushMark("ELFLDR-REUSE-PROBE-FAILED", clean(message));
-            sendRemoteEvents(false);
-            return;
-        }
     }
 
     if (PRODUCTION_RUN) {
@@ -2804,6 +2562,24 @@ function lastRunText() {
         flushMark("POOPS-STALLED", STALLED_AT);
         sendRemoteEvents(false);
         return;
+    }
+
+    // Already jailbroken this boot? If an ELF loader owns port 9021 there is
+    // nothing left to run -- go straight to the payload list. On a miss or a
+    // failed probe, fall through into the normal ladder.
+    try {
+        stage("checking for an existing ELF loader on port 9021");
+        await bootChain();
+        await refreshConsoleNetworkInfo();
+        if (await probeExistingElfLoader()) {
+            openExistingPayloadMenu();
+            sendRemoteEvents(false);
+            return;
+        }
+        flushMark("ELFLDR-REUSE-MISS", "127.0.0.1-port=9021-closed");
+    } catch (err) {
+        flushMark("ELFLDR-PROBE-SKIPPED",
+            clean((err && err.message) || String(err)));
     }
 
     renderNav("", false);

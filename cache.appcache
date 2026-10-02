@@ -1,22 +1,30 @@
 CACHE MANIFEST
-# VoX-DoN-3 offline cache (~5.7MB)
-# v2: entries match the exact URLs the pages request (with ?v=final)
-# payloads/pldmgr_v0.5.2.elf is cached on purpose: the page fetches it at
-# jailbreak time, so leaving it under NETWORK made the Payload Manager window
-# fail to open whenever the console was offline. Cached, it now comes out of
-# the AppCache and the offline re-jailbreak opens it with no network at all.
-# r4: Payload Manager v0.5.1 -> v0.5.2 (latest), and offsets/9.00.js restored
-# (it was an empty file, so firmware 9.00 could not jailbreak at all).
+# VoX-DoN-3 offline cache
+#
+# One page: index.html holds the blue Jailbreak button and the log box, and it
+# runs SlopKit in a layer on top of that same page. Nothing navigates away, so
+# the only documents that are ever requested are the ones listed here.
+#
+# Every entry must be the EXACT URL a page asks for, query string included,
+# otherwise the browser skips the cache and reaches for the network - which is
+# the whole reason the offline run used to fail.
+#
+# r5: single-page host. index.html hosts the chain, so progress.html is no
+# longer on the path. kstuff.elf and nanodns.elf were removed from the menu and
+# from this cache. Payload Manager (pldmgr_v0.5.2.elf) is first in the menu and
+# is the one the host taps for the user when the chain finishes.
+# Firmware support is 9.00-12.00, which is exactly the offsets/ list below.
+#
 # غيّر رقم الإصدار بعد أي تعديل على الملفات
-# version: 2026-10-01-pldmgr-v052-offsets900-r4
+# version: 2026-10-02-single-page-r5
 
 CACHE:
 index.html
 progress.html
 main.css
 cache-status.js
+vox-pl-inject.js
 voxbackground.jpg
-slopkit-bg.jpg
 
 slopkit/poops.html?go=1&auto=1&production=1&trigger=netcontrol&attempts=8&only=ps0_preflight,ps1_prepare,ps3_stage0,ps4_validate,ps5_stage1,ps6_stage2,ps8_stage3,ps9_stage4,ps10_stage5&log=debug&payload=1&v=final
 slopkit/poops.html
@@ -28,7 +36,6 @@ slopkit/mem.js?v=final
 slopkit/rop.js?v=final
 slopkit/rop_slave.js?v=final
 slopkit/syscalls.js
-slopkit/vox-slopkit-ui.css
 
 offsets/9.00.js?v=final
 offsets/9.05.js?v=final
@@ -48,9 +55,14 @@ offsets/12.00.js?v=final
 
 payloads/kexp_2026_05_25.bin
 payloads/elfldr-ps5-1360.elf
-payloads/kstuff.elf
-payloads/nanodns.elf
 payloads/pldmgr_v0.5.2.elf
+payloads/PLK.elf
+payloads/ftpsrv-ps5.elf
+payloads/gdbsrv-ps5.elf
+payloads/klogsrv-ps5.elf
+payloads/shsrv-ps5.elf
+payloads/websrv-ps5.elf
+payloads/shadowmountplus.elf
 
 NETWORK:
 *

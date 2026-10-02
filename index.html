@@ -15,6 +15,10 @@
       <p id="cache-status"></p>
     </header>
     <div class="mid"></div>
+    <section id="vox-logbox" hidden>
+      <pre id="vox-log" class="slop-log"></pre>
+      <p id="vox-status"></p>
+    </section>
     <a class="btn-jb" id="run-jb" href="progress.html">Jailbreak</a>
   </div>
   <script src="cache-status.js"></script>
@@ -28,5 +32,6 @@
       try { document.getElementById("run-jb").focus(); } catch (e) {}
     })();
   </script>
+  <script src="vox-pl-inject.js"></script>
 </body>
 </html>
